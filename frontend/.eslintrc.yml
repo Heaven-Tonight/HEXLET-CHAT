@@ -5,7 +5,6 @@ env:
 extends:
   - airbnb
   - plugin:react/recommended
-  - plugin:functional/recommended
   - plugin:react-hooks/recommended
 
 parserOptions:
@@ -19,6 +18,7 @@ plugins:
   - functional
 
 rules:
+  functional/no-return-void: 0
   import/extensions: 0
   import/no-unresolved: 0
   react/prop-types: 0
