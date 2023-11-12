@@ -4,6 +4,9 @@
   "description": "[![Actions Status](https://github.com/Heaven-Tonight/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Heaven-Tonight/frontend-project-12/actions)",
   "main": "src/index.js",
   "type": "module",
+  "engines": {
+    "node": "16x",
+ },
   "scripts": {
     "build": "npm run build --prefix frontend",
     "start": "start-server -s ./frontend/build",
