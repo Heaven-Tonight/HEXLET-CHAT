@@ -1,21 +1,25 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import routes from '../routes.js';
 import { Navbar }  from './Navbar.jsx';
-import { Card } from "./Card.jsx";
-import { ErrorPage } from './ErrorPage.jsx';
+import { LoginPage } from "./pages/LoginPage.jsx";
+import { ErrorPage } from './pages/ErrorPage.jsx';
+import { RegistrationPage } from './pages/RegistrationPage.jsx';
 
-const App = () => (
-<>
-  <Navbar />
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Card />} />
-      <Route path="/login" element={<Card />} />
-      <Route path="*" element={<ErrorPage />} />
-    </Routes>
-  </BrowserRouter>
-</>
-);
+const App = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const Redirect = user ? <Navigate to={routes.root} /> : <Navigate to={routes.login} />;
+  return (
+    <>
+      <Navbar/>
+        <Routes>
+          <Route path={routes.root} element={ Redirect }/>
+          <Route path={routes.login} element={<LoginPage />}/>
+          <Route path={routes.signup} element={<RegistrationPage />}/>
+          <Route path={routes.others} element={<ErrorPage />}/>
+        </Routes>
+    </>
+  );
+}
 
 export default App;
-

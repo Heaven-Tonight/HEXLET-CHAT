@@ -8,7 +8,7 @@ export const ErrorPage = () => {
       <Card className="w-75">
         <CardBody className="row w-100 d-flex justify-content-center align-items-center">
           <Card.Text className="text-center h1">{t('errors.routeErrors.404')}</Card.Text>
-          <Card.Text className="text-center h3 pt-3">{t('errors.routeErrors.notFound')}</Card.Text>
+          <Card.Text className="text-center h3 pt-3 text-muted">{t('errors.routeErrors.notFound')}</Card.Text>
           <Button href="/" variant="secondary" className="mt-5 col-5 col-md-5 mb-3">
             {t('nav.main')}
           </Button>
@@ -17,3 +17,4 @@ export const ErrorPage = () => {
     </Container>
   );
 };
+
