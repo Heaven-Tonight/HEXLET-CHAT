@@ -1,7 +1,8 @@
-import {Button, Container, Card, CardBody} from 'react-bootstrap';
+import { Button, Container, Card, CardBody } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import routes from "../../routes.js";
 
-export const ErrorPage = () => {
+const ErrorPage = () => {
   const { t } = useTranslation();
   return (
     <Container fluid className="d-flex justify-content-center align-items-start pt-5">
@@ -9,7 +10,7 @@ export const ErrorPage = () => {
         <CardBody className="row w-100 d-flex justify-content-center align-items-center">
           <Card.Text className="text-center h1">{t('errors.routeErrors.404')}</Card.Text>
           <Card.Text className="text-center h3 pt-3 text-muted">{t('errors.routeErrors.notFound')}</Card.Text>
-          <Button href="/" variant="secondary" className="mt-5 col-5 col-md-5 mb-3">
+          <Button href={routes.root} variant="secondary" className="mt-5 col-5 col-md-5 mb-3">
             {t('nav.main')}
           </Button>
         </CardBody>
@@ -18,3 +19,4 @@ export const ErrorPage = () => {
   );
 };
 
+export default ErrorPage;

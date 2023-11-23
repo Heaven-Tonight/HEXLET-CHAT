@@ -1,7 +1,7 @@
 import { Card, Col, Container, Row } from 'react-bootstrap';
-import { RegistrationForm } from '../RegistrationForm.jsx';
+import RegistrationForm from '../forms/RegistrationForm.jsx';
 
-export const RegistrationPage = () => {
+const RegistrationPage = () => {
   return (
     <Container fluid className="h-100 w-75">
       <Row className="justify-content-center align-content-center h-100">
@@ -21,3 +21,6 @@ export const RegistrationPage = () => {
     </Container>
   );
 };
+
+export default RegistrationPage;
+

@@ -1,13 +1,13 @@
 import { Form, Button, FloatingLabel } from 'react-bootstrap';
-import { useFormik } from 'formik';
-import { useRef, useEffect, useState, useContext } from "react";
+import { useRef, useEffect, useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import axios, { AxiosError } from "axios";
-import routes from '../routes.js';
-import AuthContext from '../contexts/AuthProvider.jsx';
+import { useFormik } from 'formik';
+import axios, { AxiosError } from 'axios';
+import AuthContext from '../../contexts/AuthProvider.jsx';
+import routes from '../../routes.js';
 
-export const LoginForm = () => {
+const LoginForm = () => {
   const { t } = useTranslation();
 
   const inputRef = useRef();
@@ -48,38 +48,40 @@ export const LoginForm = () => {
   return (
       <Form onSubmit={formik.handleSubmit} className="col-7 col-md-7">
         <h1 className="text-center m-3">{t('form.signIn')}</h1>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <FloatingLabel controlId={"formBasicEmail"} label={t('form.fields.nickname')}>
+        <Form.Group className="mb-3" controlId="email">
+          <FloatingLabel controlId={"email"} label={t('form.fields.nickname')}>
             <Form.Control
               ref={inputRef}
               type="text"
               name="username"
               autoComplete="username"
-              required
               placeholder={t('form.fields.username')}
+              required
               value={formik.values.username}
               onChange={formik.handleChange}
               isInvalid={authFailed}
             />
           </FloatingLabel>
         </Form.Group>
-        <Form.Group className="mb-4" controlId="formBasicPassword">
-          <FloatingLabel label={t('form.fields.password')} controlId={"formBasicPassword"}>
+        <Form.Group className="mb-4" controlId="password">
+          <FloatingLabel label={t('form.fields.password')} controlId={"password"}>
             <Form.Control
-              required
               type="password"
               name="password"
               placeholder={t('form.fields.password')}
+              required
               onChange={formik.handleChange}
               isInvalid={authFailed}
             />
             <Form.Control.Feedback type="invalid">{t('errors.loginFailed')}</Form.Control.Feedback>
           </FloatingLabel>
         </Form.Group>
-        <Button variant="btn btn-outline-primary" className="col-6 col-md-12" type="submit">
+        <Button variant="btn btn-outline-primary" type="submit" className="col-6 col-md-12">
           {t('form.signIn')}
         </Button>
       </Form>
   );
 };
+
+export default LoginForm;
 

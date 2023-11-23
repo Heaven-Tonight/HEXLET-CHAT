@@ -7,11 +7,16 @@ export default {
       signIn: 'Войти',
       signUp: 'Регистрация',
       signUpBtn: 'Зарегистрироваться',
+      sendBtn: 'Отправить',
       fields: {
         nickname: 'Ваш ник',
         username: 'Имя пользователя',
         password: 'Пароль',
         passwordConfirmation: 'Подтвердите пароль',
+      },
+      messages: {
+        newMessage: 'Новое сообщение',
+        enterMessage: 'Введите сообщение...',
       },
     },
     errors: {
