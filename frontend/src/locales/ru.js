@@ -3,6 +3,10 @@ export default {
     nav: {
       main: 'Перейти на главную страницу',
     },
+    chat: {
+      channels: 'Каналы',
+      btnPlus: '+',
+    },
     form: {
       signIn: 'Войти',
       signUp: 'Регистрация',
@@ -26,6 +30,9 @@ export default {
       },
       required: 'Это обязательное поле',
       loginFailed: 'Неверные имя пользователя или пароль',
+    },
+    footer: {
+      noAccount: 'Нет аккаунта? ',
     },
   },
 };

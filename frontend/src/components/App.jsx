@@ -13,7 +13,7 @@ const App = () => {
   const [isAuthed, setAuth] = useState(false);
   const Redirect = isAuthed ? <ChatPage /> : <Navigate to={routes.login} />
   return (
-    <>
+    <div className="d-flex flex-column w-100">
       <Navbar/>
       <AuthContext.Provider value={{isAuthed, setAuth}}>
         <Routes>
@@ -23,8 +23,8 @@ const App = () => {
           <Route path={routes.others} element={<ErrorPage />}/>
         </Routes>
         </AuthContext.Provider>
-    </>
+    </div>
   );
-}
+};
 
 export default App;

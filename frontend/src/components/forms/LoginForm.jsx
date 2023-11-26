@@ -46,10 +46,9 @@ const LoginForm = () => {
     },
   });
   return (
-      <Form onSubmit={formik.handleSubmit} className="col-7 col-md-7">
-        <h1 className="text-center m-3">{t('form.signIn')}</h1>
-        <Form.Group className="mb-3" controlId="email">
-          <FloatingLabel controlId={"email"} label={t('form.fields.nickname')}>
+      <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
+        <h1 className="text-center mb-4">{t('form.signIn')}</h1>
+          <FloatingLabel className="mb-3" controlId={"email"} label={t('form.fields.nickname')}>
             <Form.Control
               ref={inputRef}
               type="text"
@@ -62,9 +61,7 @@ const LoginForm = () => {
               isInvalid={authFailed}
             />
           </FloatingLabel>
-        </Form.Group>
-        <Form.Group className="mb-4" controlId="password">
-          <FloatingLabel label={t('form.fields.password')} controlId={"password"}>
+          <FloatingLabel className="mb-4" label={t('form.fields.password')} controlId={"password"}>
             <Form.Control
               type="password"
               name="password"
@@ -75,8 +72,7 @@ const LoginForm = () => {
             />
             <Form.Control.Feedback type="invalid">{t('errors.loginFailed')}</Form.Control.Feedback>
           </FloatingLabel>
-        </Form.Group>
-        <Button variant="btn btn-outline-primary" type="submit" className="col-6 col-md-12">
+        <Button variant="btn btn-outline-primary" type="submit" className="w-100 mb-3">
           {t('form.signIn')}
         </Button>
       </Form>
@@ -84,4 +80,3 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-

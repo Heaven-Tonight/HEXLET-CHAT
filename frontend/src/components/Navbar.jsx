@@ -1,7 +1,7 @@
 import { Container, Navbar as NavbarComponent } from 'react-bootstrap';
 
 const Navbar = () => (
-    <NavbarComponent className="shadow-sm">
+    <NavbarComponent expand="lg" className="shadow-sm bg-white">
       <Container>
         <NavbarComponent.Brand href="/"> Hexlet Chat </NavbarComponent.Brand>
       </Container>
