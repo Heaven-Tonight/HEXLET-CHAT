@@ -5,7 +5,9 @@ export default {
     },
     chat: {
       channels: 'Каналы',
-      btnPlus: '+',
+      addChannelBtn: '+',
+      switchChannelBtn: '#',
+      logoutBtn:'Выйти',
     },
     form: {
       signIn: 'Войти',
@@ -36,3 +38,4 @@ export default {
     },
   },
 };
+

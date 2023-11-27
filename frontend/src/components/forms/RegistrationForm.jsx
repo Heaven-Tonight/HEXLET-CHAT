@@ -1,18 +1,15 @@
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { useSignUpSchema } from "../../schemas";
 
 const RegistrationForm = () => {
     const { t } = useTranslation();
-    const signUpSchema = useSignUpSchema();
     const formik = useFormik({
       initialValues: {
         username: '',
         password: '',
         passwordConfirmation: '',
       },
-      validationSchema: signUpSchema,
       onSubmit: (values) => {
         // console.log(values);
       },
@@ -58,3 +55,4 @@ const RegistrationForm = () => {
 };
 
 export default RegistrationForm;
+

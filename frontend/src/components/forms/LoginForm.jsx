@@ -4,12 +4,12 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import axios, { AxiosError } from 'axios';
-import AuthContext from '../../contexts/AuthProvider.jsx';
 import routes from '../../routes.js';
+import useAuth from "../../hooks/index.jsx";
 
 const LoginForm = () => {
   const { t } = useTranslation();
-
+  const auth = useAuth();
   const inputRef = useRef();
 
   useEffect(() => {
@@ -19,7 +19,6 @@ const LoginForm = () => {
   const [authFailed, setAuthFailed] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { setAuth } = useContext(AuthContext);
 
   const formik = useFormik({
     initialValues: {
@@ -31,7 +30,7 @@ const LoginForm = () => {
       try {
         const { data } = await axios.post(routes.server.login, values);
         localStorage.setItem('user', JSON.stringify(data));
-        setAuth(true);
+        auth.logIn();
         const { from } = location.state || { from: { pathname: routes.root } };
         navigate(from);
       }catch(error) {

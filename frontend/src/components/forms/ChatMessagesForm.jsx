@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 const ChatMessagesForm = () => {
   const { t } = useTranslation();
   return (
-    <Form noValidate className="py-1 border rounded-2">
+    <Form noValidate className="py-1 border rounded-2" id="message-form">
       <Form.Group controlId="message" className="input-group has-validation">
         <Form.Control
           className="border-0 p-0 ps-2"
-          type="body"
+          name="body"
           aria-label={t('form.messages.newMessage')}
           placeholder={t('form.messages.enterMessage')}
         />
