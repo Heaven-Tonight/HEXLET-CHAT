@@ -12,26 +12,26 @@ import axios from "axios";
 
 const App = () => {
 
-  // useEffect(() => {
-  //
-  //   const emulateRegisteredUsers = async () => {
-  //
-  //     try {
-  //       const data1 = { username: 'admin2', password: 'admin2' };
-  //       const data2 = { username: 'admin3', password: 'admin3' };
-  //       const data3 = { username: 'admin4', password: 'admin4' };
-  //
-  //       await axios.post(`/api/v1/signup`, data1);
-  //       await axios.post(`/api/v1/signup`, data2);
-  //       await axios.post(`/api/v1/signup`, data3);
-  //
-  //     }catch(err) {
-  //       return;
-  //     }
-  //   }
-  //
-  //   emulateRegisteredUsers();
-  // }, []);
+  useEffect(() => {
+
+    const emulateRegisteredUsers = async () => {
+
+      try {
+        const data1 = { username: 'admin2', password: 'admin2' };
+        const data2 = { username: 'admin3', password: 'admin3' };
+        const data3 = { username: 'admin4', password: 'admin4' };
+
+        await axios.post(`/api/v1/signup`, data1);
+        await axios.post(`/api/v1/signup`, data2);
+        await axios.post(`/api/v1/signup`, data3);
+
+      }catch(err) {
+        return;
+      }
+    }
+
+    emulateRegisteredUsers();
+  }, []);
 
   const { loggedIn } = useAuth();
   const Redirect = loggedIn ? <ChatPage /> : <Navigate to={routes.login} />

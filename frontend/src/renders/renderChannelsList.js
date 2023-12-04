@@ -1,13 +1,8 @@
-import { useSelector } from "react-redux";
-import { ListGroup, ListGroupItem, Button } from "react-bootstrap";
-import {useTranslation} from "react-i18next";
+import { ListGroup, Button } from 'react-bootstrap';
 
-export default () => {
-  const { t } = useTranslation();
-
-  const channels = useSelector((state) => state.channels.channelsData);
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-
+export default (data, t) => {
+  const { currentChannelId, channels } = data;
+  
   return (
     <ListGroup id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
       { channels && channels.map(({ name, id }) => {
@@ -26,4 +21,3 @@ export default () => {
     </ListGroup>
   );
 };
-

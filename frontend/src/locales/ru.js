@@ -23,6 +23,11 @@ export default {
       messages: {
         newMessage: 'Новое сообщение',
         enterMessage: 'Введите сообщение...',
+        messagesCount: {
+          count_one: '{{count}} сообщение',
+          count_few: '{{count}} сообщения',
+          count_many: '{{count}} сообщений',
+        },
       },
     },
     errors: {
@@ -38,4 +43,3 @@ export default {
     },
   },
 };
-

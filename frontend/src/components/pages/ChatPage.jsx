@@ -1,19 +1,20 @@
-import {Col, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-import  ChatMessagesForm from '../forms/ChatMessagesForm.jsx';
 import routes from '../../routes.js';
-import { initialFetch } from '../../store/slices/channelSlice.js';
 import renderChannelsList from '../../renders/renderChannelsList.js';
+import renderMessages from '../../renders/renderMessages.js';
+import { fetchChannels } from '../../store/slices/channelSlice.js';
+import { fetchMessages } from '../../store/slices/messagesSlice.js';
 
 const ChatPage = () => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
-
+  const dispatch = useDispatch();
+  
   useEffect(() => {
-    const requestData = async() => {
+    const fetchInitialData = async () => {
       const { token } = JSON.parse(localStorage.getItem('user'));
       try {
         const { data } = await axios.get(routes.server.data, {
@@ -21,14 +22,20 @@ const ChatPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        dispatch(initialFetch(data));
-        return;
+        dispatch(fetchChannels(data));
+        dispatch(fetchMessages(data));
       } catch(e) {
         throw e;
       }
     };
-    requestData();
+    fetchInitialData();
   }, []);
+  
+  const data = {
+    channels: useSelector((state) => state.channels.channelsData),
+    currentChannelId: useSelector((state) => state.channels.currentChannelId),
+    messages: useSelector((state) => state.messages.messages),
+  };
   
   return (
         <div className="container h-100 my-4 overflow-hidden rounded shadow">
@@ -44,24 +51,10 @@ const ChatPage = () => {
                   <span className="visually-hidden">{t('chat.addChannelBtn')}</span>
                 </Button>
               </div>
-              {renderChannelsList()}
+              { data.channels.length > 0 && renderChannelsList(data, t) }
             </div>
-            <Col className="p-0 h-100">
-              <div className="d-flex flex-column h-100">
-                <div className="bg-light mb-4 p-3 shadow-sm small">
-                  <p className="m-0">
-                    <b># general</b>
-                  </p>
-                  {/*счетчик сообщений*/}
-                  <span className="text-muted"> 0 сообщений</span>
-                </div>
-                {/*здесь сообщения чата в зависимости от текущего канала*/}
-                <div id="messages-box" className="chat-messages overflow-auto px-5"></div>
-                <div className="mt-auto px-5 py-3">
-                  <ChatMessagesForm />
-                </div>
-              </div>
-            </Col>
+            
+            {  renderMessages(data, t) }
           </div>
         </div>
   );
