@@ -10,11 +10,19 @@ import { useAuth, useModal } from '../hooks/index.jsx';
 import {useEffect} from "react";
 import axios from "axios";
 import modals from "./modals/index.js";
+import socket from "../socket.js";
+import {addMessage} from "../store/slices/messagesSlice.js";
+import {addChannel} from "../store/slices/channelSlice.js";
+import {useDispatch} from "react-redux";
 
 const App = () => {
+  
+  const dispatch = useDispatch();
 
   useEffect(() => {
-
+    socket.on('newMessage',(payload) => dispatch(addMessage(payload)));
+    socket.on('newChannel', (payload) => (dispatch(addChannel(payload))));
+    
     const emulateRegisteredUsers = async () => {
 
       try {
@@ -57,3 +65,4 @@ const App = () => {
 };
 
 export default App;
+
