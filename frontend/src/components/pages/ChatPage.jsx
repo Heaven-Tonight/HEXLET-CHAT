@@ -51,7 +51,7 @@ const ChatPage = () => {
                   <span className="visually-hidden">{t('chat.addChannelBtn')}</span>
                 </Button>
               </div>
-              { data.channels.length > 0 && renderChannelsList(data, t) }
+              { data.channels.length > 0 && renderChannelsList(data, t, dispatch) }
             </div>
             
             {  renderMessages(data, t) }
