@@ -1,11 +1,11 @@
 import { Form, Button, FloatingLabel } from 'react-bootstrap';
-import { useRef, useEffect, useState, useContext } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import axios, { AxiosError } from 'axios';
 import routes from '../../routes.js';
-import useAuth from "../../hooks/index.jsx";
+import { useAuth } from '../../hooks/index.jsx';
 
 const LoginForm = () => {
   const { t } = useTranslation();

@@ -6,9 +6,10 @@ import ChatPage  from './pages/ChatPage.jsx';
 import LoginPage  from './pages/LoginPage.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
 import RegistrationPage  from './pages/RegistrationPage.jsx';
-import useAuth from '../hooks/index.jsx';
+import { useAuth, useModal } from '../hooks/index.jsx';
 import {useEffect} from "react";
 import axios from "axios";
+import modals from "./modals/index.js";
 
 const App = () => {
 
@@ -34,6 +35,8 @@ const App = () => {
   }, []);
 
   const { loggedIn } = useAuth();
+  const  modal = useModal();
+  
   const Redirect = loggedIn ? <ChatPage /> : <Navigate to={routes.login} />
 
   return (
@@ -48,6 +51,7 @@ const App = () => {
           </Routes>
       </div>
       { loggedIn && <div className="Toastify"></div> }
+      { modal.isOpen && modals[modal.modalType] }
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { Container, Button, Navbar as NavbarComponent } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import useAuth from '../hooks/index.jsx';
+import { useAuth } from '../hooks/index.jsx';
 
 const Navbar = () => {
   const { loggedIn, logOut } = useAuth();

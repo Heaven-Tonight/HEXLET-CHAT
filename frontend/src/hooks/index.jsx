@@ -1,6 +1,7 @@
 import { useContext } from 'react';
-import authContext from '../contexts/index.jsx';
+import { AuthContext, ModalContext } from '../contexts/index.jsx';
 
-const useAuth = () => useContext(authContext);
+export const useAuth = () => useContext(AuthContext);
 
-export default useAuth;
+export const useModal = () => useContext(ModalContext);
+

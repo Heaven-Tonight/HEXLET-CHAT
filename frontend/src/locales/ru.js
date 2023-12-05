@@ -3,8 +3,14 @@ export default {
     nav: {
       main: 'Перейти на главную страницу',
     },
+    questions: {
+      confirmChannelDeletion: 'Уверены?',
+    },
     chat: {
       channels: 'Каналы',
+      addChannel: 'Добавить канал',
+      deleteChannel: 'Удалить канал',
+      renameChannel: 'Переименовать канал',
       addChannelBtn: '+',
       switchChannelBtn: '#',
       logoutBtn:'Выйти',
@@ -14,6 +20,8 @@ export default {
       signUp: 'Регистрация',
       signUpBtn: 'Зарегистрироваться',
       sendBtn: 'Отправить',
+      cancelBtn: 'Отменить',
+      deleteBtn: 'Удалить',
       fields: {
         nickname: 'Ваш ник',
         username: 'Имя пользователя',
@@ -34,6 +42,10 @@ export default {
       routeErrors: {
         404: 'ОШИБКА 404',
         notFound: 'К сожалению, страница не найдена :(',
+      },
+      modalErrors: {
+        notOneOf: 'Канал с таким именем уже существует',
+        required: 'Введите имя канала',
       },
       required: 'Это обязательное поле',
       loginFailed: 'Неверные имя пользователя или пароль',

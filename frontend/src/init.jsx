@@ -3,7 +3,7 @@ import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import App from './components/App';
 import { Provider } from 'react-redux';
-import AuthProvider from './providers/index.jsx';
+import { AuthProvider, ModalProvider } from './providers/index.jsx';
 import resources from './locales/index.js';
 import store from './store/index.js';
 
@@ -20,11 +20,13 @@ const init = async () => {
   return (
     <AuthProvider>
       <I18nextProvider i18n={i18n}>
-        <BrowserRouter>
-          <Provider store={store}>
-            <App />
-          </Provider>
-        </BrowserRouter>
+        <ModalProvider>
+          <BrowserRouter>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </BrowserRouter>
+        </ModalProvider>
       </I18nextProvider>
     </AuthProvider>
   );

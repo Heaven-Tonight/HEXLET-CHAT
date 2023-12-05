@@ -1,7 +1,6 @@
 import { ListGroup, Button } from 'react-bootstrap';
 import { toggleChannel } from '../store/slices/channelSlice.js';
 
-
 export default (data, t, dispatch) => {
   const { currentChannelId, channels } = data;
   
@@ -28,3 +27,4 @@ export default (data, t, dispatch) => {
     </ListGroup>
   );
 };
+

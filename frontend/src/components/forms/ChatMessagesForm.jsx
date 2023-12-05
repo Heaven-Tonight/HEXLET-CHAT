@@ -1,12 +1,11 @@
 import  { Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
-import { io } from 'socket.io-client';
+import {useEffect, useRef} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from "formik";
 import { addMessage } from '../../store/slices/messagesSlice.js';
-
-const socket = io('http://localhost:3000');
+import socket from "../../socket.js";
+import { addChannel } from '../../store/slices/channelSlice.js';
 
 const ChatMessagesForm = () => {
   const { t } = useTranslation();
@@ -14,9 +13,13 @@ const ChatMessagesForm = () => {
   
   const channelId = useSelector((state) => state.channels.currentChannelId);
   const { username } = JSON.parse(localStorage.getItem('user'));
-
+  
+  const inputRef = useRef();
+  
   useEffect(() => {
-      socket.on('newMessage',(payload) => dispatch(addMessage(payload)));
+    inputRef.current.focus();
+    socket.on('newMessage',(payload) => dispatch(addMessage(payload)));
+    socket.on('newChannel', (payload) => (dispatch(addChannel(payload))));
   }, []);
   
   const formik = useFormik({
@@ -34,6 +37,7 @@ const ChatMessagesForm = () => {
     <Form onSubmit={formik.handleSubmit} noValidate className="py-1 border rounded-2" id="message-form">
       <Form.Group controlId="message" className="input-group has-validation">
         <Form.Control
+          ref={inputRef}
           onChange={formik.handleChange}
           className="border-0 p-0 ps-2"
           name="body"

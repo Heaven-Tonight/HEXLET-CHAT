@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import AuthContext from "../contexts/index.jsx";
+import { AuthContext, ModalContext } from "../contexts/index.jsx";
 
-const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const logIn = () => setLoggedIn(true);
@@ -17,5 +17,23 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-export default AuthProvider;
+export const ModalProvider = ({ children }) => {
+  const [modalType, setModalType] = useState(null);
+  const [isOpen, setModalIsOpen] = useState(false);
+  
+  const showModal = (type) => {
+    setModalType(type);
+    setModalIsOpen(true);
+  }
+  const hideModal = () => {
+    setModalType(null)
+    setModalIsOpen(false);
+  };
+  
+  return (
+    <ModalContext.Provider value={{modalType, isOpen, showModal, hideModal}}>
+      { children }
+    </ModalContext.Provider>
+  );
+};
 
