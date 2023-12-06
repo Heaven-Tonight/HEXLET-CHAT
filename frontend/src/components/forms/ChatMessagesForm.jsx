@@ -1,15 +1,12 @@
 import  { Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import {useEffect, useRef} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useFormik } from "formik";
-import { addMessage } from '../../store/slices/messagesSlice.js';
 import socket from "../../socket.js";
-import { addChannel } from '../../store/slices/channelSlice.js';
 
 const ChatMessagesForm = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   
   const channelId = useSelector((state) => state.channels.currentChannelId);
   const { username } = JSON.parse(localStorage.getItem('user'));
@@ -18,8 +15,6 @@ const ChatMessagesForm = () => {
   
   useEffect(() => {
     inputRef.current.focus();
-    socket.on('newMessage',(payload) => dispatch(addMessage(payload)));
-    socket.on('newChannel', (payload) => (dispatch(addChannel(payload))));
   }, []);
   
   const formik = useFormik({
@@ -57,3 +52,4 @@ const ChatMessagesForm = () => {
 };
 
 export default ChatMessagesForm;
+
