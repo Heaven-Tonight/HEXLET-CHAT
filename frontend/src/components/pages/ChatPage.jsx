@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import routes from '../../routes.js';
-import renderChannelsList from '../../renders/renderChannelsList.js';
-import renderMessages from '../../renders/renderMessages.js';
 import { fetchChannels } from '../../store/slices/channelSlice.js';
 import { fetchMessages } from '../../store/slices/messagesSlice.js';
-import { useModal } from '../../hooks/index.jsx';
+import renderMessages from '../../renders/renderMessages.js';
+import ChannelsList from '../ChannelsList.jsx';
+import {useModal} from '../../hooks/index.jsx';
 
 
 const ChatPage = () => {
@@ -54,7 +54,8 @@ const ChatPage = () => {
                   <span className="visually-hidden">{t('chat.addChannelBtn')}</span>
                 </Button>
               </div>
-              { data.channels.length > 0 && renderChannelsList(data, t, dispatch) }
+              {/*{ data.channels.length > 0 && renderChannelsList(data, t, dispatch) }*/}
+              { data.channels.length > 0 && <ChannelsList data={data} />}
             </div>
             
             {  renderMessages(data, t) }
@@ -64,3 +65,4 @@ const ChatPage = () => {
 };
 
 export default ChatPage;
+

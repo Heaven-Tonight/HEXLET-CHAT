@@ -12,6 +12,8 @@ export default {
       deleteChannel: 'Удалить канал',
       renameChannel: 'Переименовать канал',
       addChannelBtn: '+',
+      deleteChannelBtn: 'Удалить',
+      renameChannelBtn: 'Переименовать',
       switchChannelBtn: '#',
       logoutBtn:'Выйти',
     },
