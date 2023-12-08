@@ -3,14 +3,16 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toggleChannel } from '../store/slices/channelSlice.js';
+import { useModal } from '../hooks/index.jsx';
 
-const ChannelsList = (props) => {
-  const { channels, currentChannelId } = props.data;
+const ChannelsList = ({ data }) => {
+  const { channels, currentChannelId } = data;
   
   const [isOpenDropdown, setIsOpenDropdown] = useState({});
   const dropdownRefs = useRef({});
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const modal = useModal();
   
   const toggleDropdown = (id)  => {
     setIsOpenDropdown((prevState) => ({ ...prevState, [id]: !prevState[id] }));
@@ -84,7 +86,7 @@ const ChannelsList = (props) => {
                   <a className="dropdown-item" role="button" tabIndex="0" href="#">
                     {t('chat.deleteChannelBtn')}
                   </a>
-                  <a className="dropdown-item" role="button" tabIndex="0" href="#">
+                  <a onClick={() => modal.showModal('rename', id)} className="dropdown-item" role="button" tabIndex="0" href="#">
                     {t('chat.renameChannelBtn')}
                   </a>
                 </div>
@@ -110,3 +112,4 @@ const ChannelsList = (props) => {
 };
 
 export default ChannelsList;
+

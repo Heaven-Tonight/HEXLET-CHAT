@@ -2,8 +2,8 @@ import  { Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import {useEffect, useRef} from 'react';
 import { useSelector } from 'react-redux';
-import { useFormik } from "formik";
-import socket from "../../socket.js";
+import { useFormik } from 'formik';
+import socket from '../../socket.js';
 
 const ChatMessagesForm = () => {
   const { t } = useTranslation();
@@ -15,7 +15,7 @@ const ChatMessagesForm = () => {
   
   useEffect(() => {
     inputRef.current.focus();
-  }, []);
+  }, [channelId]);
   
   const formik = useFormik({
     initialValues: {
@@ -26,7 +26,7 @@ const ChatMessagesForm = () => {
         socket.emit('newMessage', data);
         values.body = '';
     },
-  })
+  });
 
   return (
     <Form onSubmit={formik.handleSubmit} noValidate className="py-1 border rounded-2" id="message-form">

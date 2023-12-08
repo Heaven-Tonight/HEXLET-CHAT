@@ -1,27 +1,28 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
+import {useEffect} from 'react';
+import { useDispatch } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import routes from '../routes.js';
 import Navbar from './Navbar.jsx';
 import ChatPage  from './pages/ChatPage.jsx';
 import LoginPage  from './pages/LoginPage.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
 import RegistrationPage  from './pages/RegistrationPage.jsx';
 import { useAuth, useModal } from '../hooks/index.jsx';
-import {useEffect} from "react";
-import axios from "axios";
-import modals from "./modals/index.js";
-import socket from "../socket.js";
-import {addMessage} from "../store/slices/messagesSlice.js";
-import {addChannel} from "../store/slices/channelSlice.js";
-import {useDispatch} from "react-redux";
+import routes from '../routes.js';
+import modals from './modals/index.js';
+import socket from '../socket.js';
+import { addMessage } from '../store/slices/messagesSlice.js';
+import { addChannel, renameChannel } from '../store/slices/channelSlice.js';
+
 
 const App = () => {
-  
   const dispatch = useDispatch();
 
   useEffect(() => {
     socket.on('newMessage',(payload) => dispatch(addMessage(payload)));
     socket.on('newChannel', (payload) => (dispatch(addChannel(payload))));
+    socket.on('renameChannel', (payload) => dispatch(renameChannel(payload)));
     
     const emulateRegisteredUsers = async () => {
 
@@ -38,7 +39,6 @@ const App = () => {
         return;
       }
     }
-
     emulateRegisteredUsers();
   }, []);
 
