@@ -17,3 +17,19 @@ export const renameChannel = (store) => (next) => (action) => {
   return next({ type:'channels/renameChannel', payload });
 };
 
+export const removeChannel = (store) => (next) => (action) => {
+  if (action.type !== 'channels/removeChannel') {
+    return next(action);
+  }
+  const { channels } = store.getState();
+  const { channelsData, currentChannelId } = channels;
+  const { id } = action.payload;
+  
+  const payload = {
+    id: id,
+    channelsData: channelsData.filter((channel) => channel.id !== id),
+    currentChannelId: (currentChannelId !== id) ? currentChannelId : 1,
+  };
+  
+  return next({ type:'channels/removeChannel', payload });
+};

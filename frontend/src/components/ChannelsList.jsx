@@ -83,7 +83,7 @@ const ChannelsList = ({ data }) => {
                   data-popper-escaped="true"
                   data-popper-placement="bottom-start"
                 >
-                  <a className="dropdown-item" role="button" tabIndex="0" href="#">
+                  <a onClick={() => modal.showModal('delete', id)} className="dropdown-item" role="button" tabIndex="0" href="#">
                     {t('chat.deleteChannelBtn')}
                   </a>
                   <a onClick={() => modal.showModal('rename', id)} className="dropdown-item" role="button" tabIndex="0" href="#">
@@ -112,4 +112,3 @@ const ChannelsList = ({ data }) => {
 };
 
 export default ChannelsList;
-

@@ -23,10 +23,13 @@ const channelSlice = createSlice({
     renameChannel: (state, { payload }) => {
       state.channelsData = payload;
     },
+    removeChannel: (state, { payload }) => {
+      state.currentChannelId = payload.currentChannelId;
+      state.channelsData = payload.channelsData;
+    },
   }
 });
 
-export const { fetchChannels, toggleChannel, addChannel, renameChannel } = channelSlice.actions;
+export const { fetchChannels, toggleChannel, addChannel, renameChannel, removeChannel } = channelSlice.actions;
 
 export default channelSlice.reducer;
-

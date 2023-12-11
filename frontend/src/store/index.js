@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import messagesReducer from './slices/messagesSlice.js';
 import channelReducer from './slices/channelSlice.js';
-import { renameChannel } from '../middlewares/index.js';
+import { renameChannel, removeChannel } from '../middlewares/index.js';
 
 
 export default configureStore({
@@ -9,6 +9,6 @@ export default configureStore({
     channels: channelReducer,
     messages: messagesReducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(renameChannel),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(renameChannel, removeChannel),
 });
 

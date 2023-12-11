@@ -13,7 +13,7 @@ import routes from '../routes.js';
 import modals from './modals/index.js';
 import socket from '../socket.js';
 import { addMessage } from '../store/slices/messagesSlice.js';
-import { addChannel, renameChannel } from '../store/slices/channelSlice.js';
+import { addChannel, renameChannel, removeChannel } from '../store/slices/channelSlice.js';
 
 
 const App = () => {
@@ -23,6 +23,7 @@ const App = () => {
     socket.on('newMessage',(payload) => dispatch(addMessage(payload)));
     socket.on('newChannel', (payload) => (dispatch(addChannel(payload))));
     socket.on('renameChannel', (payload) => dispatch(renameChannel(payload)));
+    socket.on('removeChannel', (payload) => dispatch(removeChannel(payload)));
     
     const emulateRegisteredUsers = async () => {
 
@@ -65,4 +66,3 @@ const App = () => {
 };
 
 export default App;
-
