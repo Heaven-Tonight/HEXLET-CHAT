@@ -3,6 +3,11 @@ export default {
     nav: {
       main: 'Перейти на главную страницу',
     },
+    toasts: {
+      channelCreated: 'Канал создан',
+      channelDeleted: 'Канал удален',
+      channelRenamed: 'Канал переименован',
+    },
     questions: {
       confirmChannelDeletion: 'Уверены?',
     },

@@ -1,10 +1,11 @@
-import {Modal, FormGroup, FormControl, FormLabel, Button, Form} from 'react-bootstrap';
+import { Modal, FormGroup, FormControl, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { setLocale } from 'yup';
+import { toast } from 'react-toastify';
 import { useModal } from '../../hooks/index.jsx';
 import socket from '../../socket.js';
 
@@ -21,10 +22,14 @@ const Add = () => {
       notOneOf: () => t('errors.modalErrors.notOneOf'),
       required: () => t('errors.modalErrors.required'),
     },
+    string: {
+      min: () => t('errors.modalErrors.min'),
+      max: () => t('errors.modalErrors.max'),
+    },
   });
   
   const addChannelSchema = Yup.object().shape({
-    name: Yup.string().required().notOneOf(names),
+    name: Yup.string().required().min(3).max(20).notOneOf(names),
   });
   
   const formik = useFormik({
@@ -34,6 +39,7 @@ const Add = () => {
       socket.emit('newChannel',{ name: values.name });
       values.name = '';
       modal.hideModal();
+      toast.success(t('toasts.channelCreated'));
     },
   });
   

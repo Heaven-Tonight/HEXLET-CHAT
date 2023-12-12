@@ -7,6 +7,7 @@ import socket from "../../socket.js";
 import {useEffect, useRef} from "react";
 import {Button, Form, FormControl, FormGroup, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
+import {toast} from "react-toastify";
 
 const Rename = () => {
   const { t } = useTranslation();
@@ -40,6 +41,7 @@ const Rename = () => {
       socket.emit('renameChannel', { id: modal.currentChannelId, name: values.name });
       values.name = '';
       modal.hideModal();
+      toast.success(t('toasts.channelRenamed'));
     },
   });
   
@@ -79,4 +81,3 @@ const Rename = () => {
 };
 
 export default Rename;
-

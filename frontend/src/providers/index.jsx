@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AuthContext, ModalContext, DropdownContext } from "../contexts/index.jsx";
+import { AuthContext, ModalContext } from "../contexts/index.jsx";
 
 export const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -21,6 +21,7 @@ export const ModalProvider = ({ children }) => {
   const [modalType, setModalType] = useState(null);
   const [isOpen, setModalIsOpen] = useState(false);
   const [currentChannelId, setCurrentChannelId] = useState(null);
+  const [isShownToastify, setIsShownToastify] = useState(false);
   
   const showModal = (type, id = null) => {
     setCurrentChannelId(id);
@@ -31,12 +32,13 @@ export const ModalProvider = ({ children }) => {
     setCurrentChannelId(null);
     setModalType(null)
     setModalIsOpen(false);
+    setIsShownToastify(true);
+    setTimeout(() => setIsShownToastify(false), 100000);
   };
   
   return (
-    <ModalContext.Provider value={{modalType, isOpen, currentChannelId, showModal, hideModal}}>
+    <ModalContext.Provider value={{modalType, isOpen, isShownToastify, currentChannelId, showModal, hideModal}}>
       { children }
     </ModalContext.Provider>
   );
 };
-

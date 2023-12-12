@@ -2,6 +2,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useModal } from '../../hooks';
 import socket from '../../socket';
+import {toast} from "react-toastify";
 
 const Delete = () => {
   const { t } = useTranslation();
@@ -10,6 +11,7 @@ const Delete = () => {
   const onClick = () => {
     socket.emit('removeChannel', { id: modal.currentChannelId });
     modal.hideModal();
+    toast.success(t('toasts.channelDeleted'));
   };
   
   return (

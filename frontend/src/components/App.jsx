@@ -1,8 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from 'axios';
 import {useEffect} from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './Navbar.jsx';
 import ChatPage  from './pages/ChatPage.jsx';
 import LoginPage  from './pages/LoginPage.jsx';
@@ -30,7 +31,7 @@ const App = () => {
   const  modal = useModal();
   
   const Redirect = loggedIn ? <ChatPage /> : <Navigate to={routes.login} />
-
+  
   return (
     <>
       <div className="d-flex flex-column h-100">
@@ -42,7 +43,9 @@ const App = () => {
             <Route path={routes.others} element={<ErrorPage />}/>
           </Routes>
       </div>
-      { loggedIn && <div className="Toastify"></div> }
+      { loggedIn && <div className="Toastify">
+        { modal.isShownToastify &&  <ToastContainer /> }
+      </div> }
       { modal.isOpen && modals[modal.modalType] }
     </>
   );
