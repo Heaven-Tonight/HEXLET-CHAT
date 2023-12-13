@@ -1,9 +1,10 @@
 import  { Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import {useEffect, useRef} from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import socket from '../../socket.js';
+import filterProfanityWords from '../../dictionary/index.js';
 
 const ChatMessagesForm = () => {
   const { t } = useTranslation();
@@ -22,7 +23,7 @@ const ChatMessagesForm = () => {
       body: '',
     },
     onSubmit: (values) => {
-      const data = { body: values.body, channelId, username };
+      const data = { body: filterProfanityWords(values.body), channelId, username };
         socket.emit('newMessage', data);
         values.body = '';
     },
@@ -52,4 +53,3 @@ const ChatMessagesForm = () => {
 };
 
 export default ChatMessagesForm;
-

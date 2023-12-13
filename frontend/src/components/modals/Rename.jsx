@@ -8,6 +8,7 @@ import {useEffect, useRef} from "react";
 import {Button, Form, FormControl, FormGroup, Modal} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import {toast} from "react-toastify";
+import filterProfanityWords from "../../dictionary/index.js";
 
 const Rename = () => {
   const { t } = useTranslation();
@@ -38,7 +39,7 @@ const Rename = () => {
     initialValues: { name },
     validationSchema: renameChannelSchema,
     onSubmit:  (values) => {
-      socket.emit('renameChannel', { id: modal.currentChannelId, name: values.name });
+      socket.emit('renameChannel', { id: modal.currentChannelId, name: filterProfanityWords(values.name) });
       values.name = '';
       modal.hideModal();
       toast.success(t('toasts.channelRenamed'));
