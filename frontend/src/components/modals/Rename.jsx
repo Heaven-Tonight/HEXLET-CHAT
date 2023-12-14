@@ -1,14 +1,15 @@
-import {useModal} from "../../hooks";
-import {useSelector} from "react-redux";
-import {setLocale} from "yup";
-import * as Yup from "yup";
-import {useFormik} from "formik";
-import socket from "../../socket.js";
-import {useEffect, useRef} from "react";
-import {Button, Form, FormControl, FormGroup, Modal} from "react-bootstrap";
-import {useTranslation} from "react-i18next";
-import {toast} from "react-toastify";
-import filterProfanityWords from "../../dictionary/index.js";
+import { Button, Form, FormControl, FormGroup, Modal } from 'react-bootstrap';
+import { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { useFormik } from 'formik';
+import { setLocale } from 'yup';
+import * as Yup from 'yup';
+import  { toast } from 'react-toastify';
+import { useModal } from '../../hooks';
+import socket from '../../socket.js';
+import routes from '../../routes.js';
+import filterProfanityWords from '../../dictionary/index.js';
 
 const Rename = () => {
   const { t } = useTranslation();
@@ -18,7 +19,6 @@ const Rename = () => {
   const channels = useSelector((state) => state.channels.channelsData);
   const names = channels.map(({ name }) => name);
   const { name } = channels.find(({ id }) => id === modal.currentChannelId);
-  
   
   setLocale({
     mixed: {
@@ -39,7 +39,7 @@ const Rename = () => {
     initialValues: { name },
     validationSchema: renameChannelSchema,
     onSubmit:  (values) => {
-      socket.emit('renameChannel', { id: modal.currentChannelId, name: filterProfanityWords(values.name) });
+      socket.emit(routes.server.socket.renameChannel, { id: modal.currentChannelId, name: filterProfanityWords(values.name) });
       values.name = '';
       modal.hideModal();
       toast.success(t('toasts.channelRenamed'));

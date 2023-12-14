@@ -1,9 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {useEffect} from 'react';
+import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import Navbar from './Navbar.jsx';
 import ChatPage  from './pages/ChatPage.jsx';
 import LoginPage  from './pages/LoginPage.jsx';
@@ -16,15 +16,14 @@ import socket from '../socket.js';
 import { addMessage } from '../store/slices/messagesSlice.js';
 import { addChannel, renameChannel, removeChannel } from '../store/slices/channelSlice.js';
 
-
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket.on('newMessage',(payload) => dispatch(addMessage(payload)));
-    socket.on('newChannel', (payload) => (dispatch(addChannel(payload))));
-    socket.on('renameChannel', (payload) => dispatch(renameChannel(payload)));
-    socket.on('removeChannel', (payload) => dispatch(removeChannel(payload)));
+    socket.on(routes.server.socket.newMessage, (payload) => dispatch(addMessage(payload)));
+    socket.on(routes.server.socket.newChannel, (payload) => (dispatch(addChannel(payload))));
+    socket.on(routes.server.socket.renameChannel, (payload) => dispatch(renameChannel(payload)));
+    socket.on(routes.server.socket.removeChannel, (payload) => dispatch(removeChannel(payload)));
   }, []);
 
   const { loggedIn } = useAuth();
@@ -52,3 +51,4 @@ const App = () => {
 };
 
 export default App;
+

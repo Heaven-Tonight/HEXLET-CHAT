@@ -8,6 +8,7 @@ import { setLocale } from 'yup';
 import { toast } from 'react-toastify';
 import { useModal } from '../../hooks/index.jsx';
 import socket from '../../socket.js';
+import routes from '../../routes.js';
 import filterProfanityWords from "../../dictionary/index.js";
 
 const Add = () => {
@@ -37,7 +38,7 @@ const Add = () => {
     initialValues: { name: '' },
     validationSchema: addChannelSchema,
     onSubmit:  (values) => {
-      socket.emit('newChannel',{ name: filterProfanityWords(values.name) });
+      socket.emit(routes.server.socket.newChannel,{ name: filterProfanityWords(values.name) });
       values.name = '';
       modal.hideModal();
       toast.success(t('toasts.channelCreated'));

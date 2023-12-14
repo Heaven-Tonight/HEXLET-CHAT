@@ -1,15 +1,16 @@
 import { Button, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import {toast} from 'react-toastify';
 import { useModal } from '../../hooks';
 import socket from '../../socket';
-import {toast} from "react-toastify";
+import routes from '../../routes.js';
 
 const Delete = () => {
   const { t } = useTranslation();
   const modal = useModal();
   
   const onClick = () => {
-    socket.emit('removeChannel', { id: modal.currentChannelId });
+    socket.emit(routes.server.socket.removeChannel, { id: modal.currentChannelId });
     modal.hideModal();
     toast.success(t('toasts.channelDeleted'));
   };

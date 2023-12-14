@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import socket from '../../socket.js';
+import routes from '../../routes.js';
 import filterProfanityWords from '../../dictionary/index.js';
 
 const ChatMessagesForm = () => {
@@ -24,7 +25,7 @@ const ChatMessagesForm = () => {
     },
     onSubmit: (values) => {
       const data = { body: filterProfanityWords(values.body), channelId, username };
-        socket.emit('newMessage', data);
+        socket.emit(routes.server.socket.newMessage, data);
         values.body = '';
     },
   });
