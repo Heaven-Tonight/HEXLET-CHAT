@@ -6,10 +6,9 @@ import axios from 'axios';
 import routes from '../../routes.js';
 import { fetchChannels } from '../../store/slices/channelSlice.js';
 import { fetchMessages } from '../../store/slices/messagesSlice.js';
-import renderMessages from '../../renders/renderMessages.js';
 import ChannelsList from '../ChannelsList.jsx';
 import {useModal} from '../../hooks/index.jsx';
-
+import MessagesList from "../MessagesList";
 
 const ChatPage = () => {
   const { t } = useTranslation();
@@ -54,9 +53,9 @@ const ChatPage = () => {
                   <span className="visually-hidden">{t('chat.addChannelBtn')}</span>
                 </Button>
               </div>
-              { data.channels.length > 0 && <ChannelsList data={data} />}
+              {data.channels.length > 0 && <ChannelsList data={data} />}
             </div>
-            {  renderMessages(data, t) }
+            <MessagesList data={data} />
           </div>
         </div>
   );
