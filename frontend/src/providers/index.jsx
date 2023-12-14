@@ -1,10 +1,14 @@
 import { useState } from 'react';
-import { AuthContext, ModalContext } from "../contexts/index.jsx";
+import { AuthContext, ModalContext } from '../contexts/index.jsx';
 
 export const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
-
+  const [loggedIn, setLoggedIn] = useState(() => {
+    const userLoggedIn = JSON.parse(localStorage.getItem('user'));
+    return !!userLoggedIn;
+  });
+  
   const logIn = () => setLoggedIn(true);
+  
   const logOut = () => {
     localStorage.removeItem('user');
     setLoggedIn(false);
