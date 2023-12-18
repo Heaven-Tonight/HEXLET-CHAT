@@ -1,6 +1,11 @@
-import { Button, Container, Card, CardBody } from 'react-bootstrap';
+import {
+  Button,
+  Container,
+  Card,
+  CardBody,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import routes from "../../routes.js";
+import routes from '../../routes.js';
 
 const ErrorPage = () => {
   const { t } = useTranslation();

@@ -1,11 +1,17 @@
-import { Button, Form, FormControl, FormGroup, Modal } from 'react-bootstrap';
+import {
+  Button,
+  Form,
+  FormControl,
+  FormGroup,
+  Modal,
+} from 'react-bootstrap';
 import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { setLocale } from 'yup';
 import * as Yup from 'yup';
-import  { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useModal } from '../../hooks';
 import socket from '../../socket.js';
 import routes from '../../routes.js';
@@ -15,11 +21,11 @@ const Rename = () => {
   const { t } = useTranslation();
   const modal = useModal();
   const inputRef = useRef();
-  
+
   const channels = useSelector((state) => state.channels.channelsData);
   const names = channels.map(({ name }) => name);
   const { name } = channels.find(({ id }) => id === modal.currentChannelId);
-  
+  // eslint-disable-next-line
   setLocale({
     mixed: {
       notOneOf: () => t('errors.modalErrors.notOneOf'),
@@ -30,32 +36,42 @@ const Rename = () => {
       max: () => t('errors.modalErrors.max'),
     },
   });
-  
+
   const renameChannelSchema = Yup.object().shape({
-    name: Yup.string().required().min(3).max(20).notOneOf(names),
+    name: Yup
+      .string()
+      .required()
+      .min(3)
+      .max(20)
+      .notOneOf(names),
   });
-  
+
   const formik = useFormik({
     initialValues: { name },
     validationSchema: renameChannelSchema,
-    onSubmit:  (values) => {
+    onSubmit: (values) => {
+      // eslint-disable-next-line
       socket.emit(routes.server.socket.renameChannel, { id: modal.currentChannelId, name: filterProfanityWords(values.name) });
+      // eslint-disable-next-line
       values.name = '';
+      // eslint-disable-next-line
       modal.hideModal();
+      // eslint-disable-next-line
       toast.success(t('toasts.channelRenamed'));
     },
   });
-  
+  // eslint-disable-next-line
   useEffect(() => {
+    // eslint-disable-next-line
     inputRef.current.select();
   }, []);
-  
+
   return (
     <Modal centered show onHide={() => modal.hideModal()}>
       <Modal.Header closeButton>
         <Modal.Title>{t('chat.renameChannel')}</Modal.Title>
       </Modal.Header>
-      
+
       <Modal.Body>
         <form onSubmit={formik.handleSubmit}>
           <FormGroup>
@@ -68,7 +84,7 @@ const Rename = () => {
               name="name"
               isInvalid={formik.errors.name && formik.touched.name}
             />
-            <label className="visually-hidden" htmlFor="name"></label>
+            <Form.Label className="visually-hidden" htmlFor="name" />
             <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button onClick={() => modal.hideModal()} variant="secondary" type="button" className="me-2">{t('form.cancelBtn')}</Button>

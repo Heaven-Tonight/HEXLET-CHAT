@@ -20,7 +20,7 @@ export default {
       deleteChannelBtn: 'Удалить',
       renameChannelBtn: 'Переименовать',
       switchChannelBtn: '#',
-      logoutBtn:'Выйти',
+      logoutBtn: 'Выйти',
     },
     form: {
       signIn: 'Войти',

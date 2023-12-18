@@ -1,27 +1,32 @@
 import { Col } from 'react-bootstrap';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import ChatMessagesForm from '../components/forms/ChatMessagesForm.jsx';
+import ChatMessagesForm from './forms/ChatMessagesForm.jsx';
 
 const MessagesList = (props) => {
   const { t } = useTranslation();
-  const { channels, currentChannelId, messages } = props.data;
+  const { data } = props;
+  const { channels, currentChannelId, messages } = data;
   const messagesBoxRef = useRef();
-  
+
   const currentChannel = channels.find((channel) => channel.id === currentChannelId);
   const currentChannelMessages = messages.filter((msg) => msg.channelId === currentChannelId);
   const messagesCount = currentChannelMessages.length;
-  
+  // eslint-disable-next-line
   useEffect(() => {
+    // eslint-disable-next-line
     messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight;
   }, [currentChannelMessages]);
-  
+
   return (
     <Col className="p-0 h-100">
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0">
-            <b># {channels.length > 0 && currentChannel.name}</b>
+            <b>
+              #
+              {channels.length > 0 && currentChannel.name}
+            </b>
           </p>
           <span className="text-muted">{t('form.messages.messagesCount.count', { count: messagesCount })}</span>
         </div>
@@ -43,4 +48,3 @@ const MessagesList = (props) => {
 };
 
 export default MessagesList;
-

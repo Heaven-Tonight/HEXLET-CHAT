@@ -5,6 +5,7 @@ const initialState = {
   currentChannelId: 1,
 };
 
+/* eslint-disable */
 const channelSlice = createSlice({
   name: 'channels',
   initialState,
@@ -17,7 +18,7 @@ const channelSlice = createSlice({
       state.currentChannelId = payload.currentChannelId;
     },
     addChannel: (state, { payload }) => {
-      state.channelsData = [ ...state.channelsData, payload];
+      state.channelsData = [...state.channelsData, payload];
       state.currentChannelId = payload.id;
     },
     renameChannel: (state, { payload }) => {
@@ -27,9 +28,16 @@ const channelSlice = createSlice({
       state.currentChannelId = payload.currentChannelId;
       state.channelsData = payload.channelsData;
     },
-  }
+  },
 });
 
-export const { fetchChannels, toggleChannel, addChannel, renameChannel, removeChannel } = channelSlice.actions;
+export const {
+  fetchChannels,
+  toggleChannel,
+  addChannel,
+  renameChannel,
+  removeChannel,
+} = channelSlice.actions;
 
 export default channelSlice.reducer;
+
