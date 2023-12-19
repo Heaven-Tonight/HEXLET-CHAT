@@ -3,7 +3,7 @@ import { AuthContext, ModalContext, ScrollContext } from '../contexts/index.jsx'
 
 export const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(() => {
-    const userLoggedIn = JSON.parse(localStorage.getItem('user'));
+    const userLoggedIn = localStorage.getItem('user');
     return !!userLoggedIn;
   });
 

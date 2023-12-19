@@ -6,9 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import socket from '../../socket.js';
-import routes from '../../routes.js';
-import filterProfanityWords from '../../dictionary/index.js';
+import { sendMessage } from '../../socket/index';
 
 const ChatMessagesForm = () => {
   const { t } = useTranslation();
@@ -28,9 +26,8 @@ const ChatMessagesForm = () => {
       body: '',
     },
     onSubmit: (values) => {
-      const data = { body: filterProfanityWords(values.body), channelId, username };
       // eslint-disable-next-line
-        socket.emit(routes.server.socket.newMessage, data);
+      sendMessage({ body: values.body, channelId, username });
       // eslint-disable-next-line
         values.body = '';
     },

@@ -2,13 +2,12 @@ import { Button } from 'react-bootstrap';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
-import routes from '../../routes.js';
-import { fetchChannels } from '../../store/slices/channelSlice.js';
-import { fetchMessages } from '../../store/slices/messagesSlice.js';
 import ChannelsList from '../ChannelsList.jsx';
-import { useModal } from '../../hooks/index.jsx';
 import MessagesList from '../MessagesList';
+import { useModal } from '../../hooks/index.jsx';
+import { getInitialData } from '../../requests/index';
+import { fetchChannels } from '../../store/slices/channelSlice';
+import { fetchMessages } from '../../store/slices/messagesSlice';
 
 const ChatPage = () => {
   const { t } = useTranslation();
@@ -16,15 +15,13 @@ const ChatPage = () => {
   const modal = useModal();
   // eslint-disable-next-line
   useEffect(() => {
+    // eslint-disable-next-line
     const fetchInitialData = async () => {
       const { token } = JSON.parse(localStorage.getItem('user'));
       // eslint-disable-next-line
       try {
-        const { data } = await axios.get(routes.server.data, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        // eslint-disable-next-line
+        const { data } = await getInitialData(token);
         // eslint-disable-next-line
         dispatch(fetchChannels(data));
         // eslint-disable-next-line

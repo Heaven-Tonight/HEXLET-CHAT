@@ -9,13 +9,10 @@ import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import * as Yup from 'yup';
-import { setLocale } from 'yup';
 import { toast } from 'react-toastify';
 import { useModal, useScroll } from '../../hooks/index.jsx';
-import socket from '../../socket.js';
-import routes from '../../routes.js';
-import filterProfanityWords from '../../dictionary/index.js';
+import { addNewChannel } from '../../socket/index.js';
+import { useChannelNameSchema } from '../../schemas';
 
 const Add = () => {
   const { t } = useTranslation();
@@ -24,33 +21,15 @@ const Add = () => {
 
   const channels = useSelector((state) => state.channels.channelsData);
   const names = channels.map(({ name }) => name);
-  // eslint-disable-next-line
-  setLocale({
-    mixed: {
-      notOneOf: () => t('errors.modalErrors.notOneOf'),
-      required: () => t('errors.modalErrors.required'),
-    },
-    string: {
-      min: () => t('errors.modalErrors.min'),
-      max: () => t('errors.modalErrors.max'),
-    },
-  });
 
-  const addChannelSchema = Yup.object().shape({
-    name: Yup
-      .string()
-      .required()
-      .min(3)
-      .max(20)
-      .notOneOf(names),
-  });
+  const addChannelSchema = useChannelNameSchema(names, t);
 
   const formik = useFormik({
     initialValues: { name: '' },
     validationSchema: addChannelSchema,
     onSubmit: (values) => {
       // eslint-disable-next-line
-      socket.emit(routes.server.socket.newChannel, { name: filterProfanityWords(values.name) });
+      addNewChannel(values.name);
       // eslint-disable-next-line
       values.name = '';
       // eslint-disable-next-line

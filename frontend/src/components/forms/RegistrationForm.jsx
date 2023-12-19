@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
-import axios from 'axios';
 import routes from '../../routes.js';
 import { useAuth } from '../../hooks/index.jsx';
+import { sendRegistrationData } from '../../requests';
+import { useRegistrationFormSchema } from '../../schemas/index';
 
 const RegistrationForm = () => {
   const { t } = useTranslation();
@@ -21,23 +21,7 @@ const RegistrationForm = () => {
     inputRef.current.focus();
   }, [inputRef]);
 
-  // eslint-disable-next-line
-  Yup.setLocale({
-    mixed: {
-      oneOf: () => t('errors.registrationErrors.oneOf'),
-      required: () => t('errors.required'),
-    },
-    string: {
-      min: () => t('errors.registrationErrors.min'),
-      max: () => t('errors.registrationErrors.max'),
-    },
-  });
-
-  const registrationSchema = Yup.object().shape({
-    username: Yup.string().required().min(3).max(20),
-    password: Yup.string().required().min(6, t('errors.registrationErrors.password.min')),
-    passwordConfirmation: Yup.string().required(t('errors.registrationErrors.oneOf')).oneOf([Yup.ref('password')]),
-  });
+  const registrationSchema = useRegistrationFormSchema(t);
 
   const formik = useFormik({
     initialValues: {
@@ -54,7 +38,7 @@ const RegistrationForm = () => {
       try {
         const { username, password } = values;
         // eslint-disable-next-line
-        const { data } = await axios.post(routes.server.signup, { username, password });
+        const { data } = await sendRegistrationData({ username, password });
         // eslint-disable-next-line
         localStorage.setItem('user', JSON.stringify(data));
         // eslint-disable-next-line

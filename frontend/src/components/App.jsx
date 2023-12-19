@@ -12,22 +12,15 @@ import RegistrationPage from './pages/RegistrationPage.jsx';
 import { useAuth, useModal } from '../hooks/index.jsx';
 import routes from '../routes.js';
 import modals from './modals/index.js';
-import socket from '../socket.js';
-import { addMessage } from '../store/slices/messagesSlice.js';
-import { addChannel, renameChannel, removeChannel } from '../store/slices/channelSlice.js';
+import { startListening } from '../socket/index';
 
 const App = () => {
   const dispatch = useDispatch();
+
   // eslint-disable-next-line
   useEffect(() => {
     // eslint-disable-next-line
-    socket.on(routes.server.socket.newMessage, (payload) => dispatch(addMessage(payload)));
-    // eslint-disable-next-line
-    socket.on(routes.server.socket.newChannel, (payload) => (dispatch(addChannel(payload))));
-    // eslint-disable-next-line
-    socket.on(routes.server.socket.renameChannel, (payload) => dispatch(renameChannel(payload)));
-    // eslint-disable-next-line
-    socket.on(routes.server.socket.removeChannel, (payload) => dispatch(removeChannel(payload)));
+    startListening(dispatch);
   }, [dispatch]);
 
   const { loggedIn } = useAuth();

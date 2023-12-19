@@ -30,6 +30,7 @@ const ChannelsList = ({ data }) => {
 
   const handleClickOutside = (event) => {
     Object.keys(isOpenDropdown).forEach((id) => {
+      // eslint-disable-next-line
       if (dropdownRefs.current[id] && !dropdownRefs.current[id].contains(event.target)) {
         setIsOpenDropdown((prevState) => ({ ...prevState, [id]: false }));
       }

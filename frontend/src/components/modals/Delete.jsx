@@ -5,8 +5,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useModal } from '../../hooks';
-import socket from '../../socket';
-import routes from '../../routes.js';
+import { deleteChannel } from '../../socket/index';
 
 const Delete = () => {
   const { t } = useTranslation();
@@ -14,7 +13,8 @@ const Delete = () => {
 
   const onClick = () => {
     // eslint-disable-next-line
-    socket.emit(routes.server.socket.removeChannel, { id: modal.currentChannelId });
+    deleteChannel(modal.currentChannelId);
+    // socket.emit(routes.server.socket.removeChannel, { id: modal.currentChannelId });
     // eslint-disable-next-line
     modal.hideModal();
     // eslint-disable-next-line

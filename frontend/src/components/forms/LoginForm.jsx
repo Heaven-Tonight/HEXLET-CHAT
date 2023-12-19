@@ -3,9 +3,10 @@ import { useRef, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import routes from '../../routes.js';
 import { useAuth } from '../../hooks/index.jsx';
+import { sendLoginData } from '../../requests';
 
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -32,7 +33,7 @@ const LoginForm = () => {
       // eslint-disable-next-line
       try {
         // eslint-disable-next-line
-        const { data } = await axios.post(routes.server.login, values);
+        const { data } = await sendLoginData(values);
         // eslint-disable-next-line
         localStorage.setItem('user', JSON.stringify(data));
         // eslint-disable-next-line

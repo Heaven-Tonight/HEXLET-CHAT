@@ -9,13 +9,10 @@ import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { setLocale } from 'yup';
-import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { useModal } from '../../hooks';
-import socket from '../../socket.js';
-import routes from '../../routes.js';
-import filterProfanityWords from '../../dictionary/index.js';
+import { renameCurrentChannel } from '../../socket/index';
+import { useChannelNameSchema } from '../../schemas/index';
 
 const Rename = () => {
   const { t } = useTranslation();
@@ -26,32 +23,14 @@ const Rename = () => {
   const names = channels.map(({ name }) => name);
   const { name } = channels.find(({ id }) => id === modal.currentChannelId);
   // eslint-disable-next-line
-  setLocale({
-    mixed: {
-      notOneOf: () => t('errors.modalErrors.notOneOf'),
-      required: () => t('errors.modalErrors.required'),
-    },
-    string: {
-      min: () => t('errors.modalErrors.min'),
-      max: () => t('errors.modalErrors.max'),
-    },
-  });
-
-  const renameChannelSchema = Yup.object().shape({
-    name: Yup
-      .string()
-      .required()
-      .min(3)
-      .max(20)
-      .notOneOf(names),
-  });
+  const renameChannelSchema = useChannelNameSchema(names, t);
 
   const formik = useFormik({
     initialValues: { name },
     validationSchema: renameChannelSchema,
     onSubmit: (values) => {
       // eslint-disable-next-line
-      socket.emit(routes.server.socket.renameChannel, { id: modal.currentChannelId, name: filterProfanityWords(values.name) });
+      renameCurrentChannel(values.name, modal.currentChannelId);
       // eslint-disable-next-line
       values.name = '';
       // eslint-disable-next-line
