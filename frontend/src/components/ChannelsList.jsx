@@ -1,5 +1,10 @@
 import { Button, ListGroup } from 'react-bootstrap';
-import { useEffect, useRef, useState } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toggleChannel } from '../store/slices/channelSlice.js';
@@ -12,7 +17,12 @@ const ChannelsList = ({ data }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const modal = useModal();
-  const { shouldScrollToBottom } = useScroll();
+  const {
+    scrollState,
+    scrollToBottom,
+    scrollToTop,
+  } = useScroll();
+  const { shouldScrollToTop, shouldScrollToBottom } = scrollState;
 
   const channelsBoxRef = useRef();
 
@@ -28,14 +38,13 @@ const ChannelsList = ({ data }) => {
     dispatch(toggleChannel({ currentChannelId: id }));
   };
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = useCallback((event) => {
     Object.keys(isOpenDropdown).forEach((id) => {
-      // eslint-disable-next-line
       if (dropdownRefs.current[id] && !dropdownRefs.current[id].contains(event.target)) {
         setIsOpenDropdown((prevState) => ({ ...prevState, [id]: false }));
       }
     });
-  };
+  }, [isOpenDropdown, setIsOpenDropdown, dropdownRefs]);
 
   const handleKeyDown = (event) => {
     if (event.key === 'Escape') {
@@ -51,12 +60,22 @@ const ChannelsList = ({ data }) => {
       document.removeEventListener('click', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpenDropdown]);
+  }, [isOpenDropdown, handleClickOutside]);
+
   useEffect(() => {
     if (shouldScrollToBottom) {
-      channelsBoxRef.current.scrollTop = channelsBoxRef.current.scrollHeight;
+      scrollToBottom(channelsBoxRef);
     }
-  }, [channels, shouldScrollToBottom]);
+    if (shouldScrollToTop) {
+      scrollToTop(channelsBoxRef);
+    }
+  }, [
+    channels,
+    shouldScrollToBottom,
+    shouldScrollToTop,
+    scrollToBottom,
+    scrollToTop,
+  ]);
 
   return (
     <ListGroup ref={channelsBoxRef} id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
@@ -75,7 +94,7 @@ const ChannelsList = ({ data }) => {
                   onClick={onToggleChannel(id)}
                   variant={variant}
                   type="button"
-                  className="w-100 rounded text-start"
+                  className="w-100 rounded-0 text-start text-truncate"
                 >
                   <span className="me-1">{t('chat.switchChannelBtn')}</span>
                   {name}
@@ -94,7 +113,8 @@ const ChannelsList = ({ data }) => {
                   style={{
                     position: 'absolute',
                     inset: '0px auto auto 0px',
-                    transform: 'translate3d(5.01493px, 39.403px, 0px)',
+                    top: '39.403px',
+                    left: '5.01493px',
                   }}
                   x-placement="bottom-start"
                   aria-labelledby="react-aria4233204493-1"
@@ -144,3 +164,4 @@ const ChannelsList = ({ data }) => {
 };
 
 export default ChannelsList;
+

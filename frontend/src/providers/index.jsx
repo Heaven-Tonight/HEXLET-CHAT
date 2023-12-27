@@ -71,21 +71,56 @@ export const ModalProvider = ({ children }) => {
 };
 
 export const ScrollProvider = ({ children }) => {
-  const [shouldScrollToBottom, setShouldScrollToBottom] = useState(false);
+  const [scrollState, setScrollState] = useState({
+    shouldScrollToBottom: false,
+    shouldScrollToTop: false,
+  });
 
-  const scrollToBottom = () => {
-    // eslint-disable-next-line
-    setShouldScrollToBottom(true);
+  const setScrollPosition = (position) => {
+    switch (position) {
+      case 'top': {
+        // eslint-disable-next-line
+        setScrollState((prevState) => ({
+          ...prevState,
+          shouldScrollToTop: true,
+          shouldScrollToBottom: false, // Новое значение для shouldScrollToBottom
+        }));
+        break;
+      }
+      case 'bottom': {
+        // eslint-disable-next-line
+        setScrollState((prevState) => ({
+          ...prevState,
+          shouldScrollToTop: false,
+          shouldScrollToBottom: true,
+        }));
+        break;
+      }
+      default: {
+        // eslint-disable-next-line
+        setScrollState((prevState) => ({
+          ...prevState,
+          shouldScrollToTop: false,
+          shouldScrollToBottom: false,
+        }));
+        break;
+      }
+    }
   };
 
-  const cancelScrollToBottom = () => {
+  const scrollToBottom = (ref) => {
     // eslint-disable-next-line
-    setShouldScrollToBottom(false);
+    ref.current.scrollTop = ref.current.scrollHeight;
+  };
+
+  const scrollToTop = (ref) => {
+    // eslint-disable-next-line
+    ref.current.scrollTop = 0;
   };
 
   return (
     // eslint-disable-next-line
-    <ScrollContext.Provider value={{ shouldScrollToBottom, scrollToBottom, cancelScrollToBottom }}>
+    <ScrollContext.Provider value={{ scrollState, setScrollPosition, scrollToBottom, scrollToTop }}>
       { children }
     </ScrollContext.Provider>
   );

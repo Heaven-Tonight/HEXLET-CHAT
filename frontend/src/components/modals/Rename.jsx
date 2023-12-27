@@ -10,13 +10,14 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
-import { useModal } from '../../hooks';
+import { useModal, useScroll } from '../../hooks';
 import { renameCurrentChannel } from '../../socket/index';
 import { useChannelNameSchema } from '../../schemas/index';
 
 const Rename = () => {
   const { t } = useTranslation();
   const modal = useModal();
+  const { setScrollPosition } = useScroll();
   const inputRef = useRef();
 
   const channels = useSelector((state) => state.channels.channelsData);
@@ -37,6 +38,8 @@ const Rename = () => {
       modal.hideModal();
       // eslint-disable-next-line
       toast.success(t('toasts.channelRenamed'));
+      // eslint-disable-next-line
+      setScrollPosition('current');
     },
   });
   // eslint-disable-next-line

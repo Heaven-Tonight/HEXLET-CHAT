@@ -17,7 +17,7 @@ import { useChannelNameSchema } from '../../schemas';
 const Add = () => {
   const { t } = useTranslation();
   const modal = useModal();
-  const { scrollToBottom } = useScroll();
+  const { setScrollPosition } = useScroll();
 
   const channels = useSelector((state) => state.channels.channelsData);
   const names = channels.map(({ name }) => name);
@@ -37,7 +37,7 @@ const Add = () => {
       // eslint-disable-next-line
       toast.success(t('toasts.channelCreated'));
       // eslint-disable-next-line
-      scrollToBottom();
+      setScrollPosition('bottom');
     },
   });
 

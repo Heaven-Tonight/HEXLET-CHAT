@@ -2,9 +2,11 @@ import { Col } from 'react-bootstrap';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ChatMessagesForm from './forms/ChatMessagesForm.jsx';
+import { useScroll } from '../hooks';
 
 const MessagesList = (props) => {
   const { t } = useTranslation();
+  const { scrollToBottom } = useScroll();
   const { data } = props;
   const { channels, currentChannelId, messages } = data;
   const messagesBoxRef = useRef();
@@ -15,8 +17,8 @@ const MessagesList = (props) => {
   // eslint-disable-next-line
   useEffect(() => {
     // eslint-disable-next-line
-    messagesBoxRef.current.scrollTop = messagesBoxRef.current.scrollHeight;
-  }, [currentChannelMessages]);
+    scrollToBottom(messagesBoxRef);
+  }, [currentChannelMessages, scrollToBottom]);
 
   return (
     <Col className="p-0 h-100">
