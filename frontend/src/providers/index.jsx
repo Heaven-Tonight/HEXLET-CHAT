@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { AuthContext, ModalContext, ScrollContext } from '../contexts/index.jsx';
 
 export const AuthProvider = ({ children }) => {
@@ -16,9 +16,10 @@ export const AuthProvider = ({ children }) => {
     setLoggedIn(false);
   };
 
+  const contextValue = useMemo(() => ({ loggedIn, logIn, logOut }), [loggedIn]);
+
   return (
-    // eslint-disable-next-line
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <AuthContext.Provider value={contextValue}>
       { children }
     </AuthContext.Provider>
   );
@@ -30,40 +31,40 @@ export const ModalProvider = ({ children }) => {
   const [currentChannelId, setCurrentChannelId] = useState(null);
   const [isShownToastify, setIsShownToastify] = useState(false);
 
-  const showModal = (type, id = null) => {
+  const showModal = useCallback((type, id = null) => {
     // eslint-disable-next-line
     setCurrentChannelId(id);
     // eslint-disable-next-line
     setModalType(type);
     // eslint-disable-next-line
     setModalIsOpen(true);
-  };
-  const hideModal = () => {
+  }, []);
+
+  const hideModal = useCallback(() => {
     // eslint-disable-next-line
     setCurrentChannelId(null);
     // eslint-disable-next-line
-    setModalType(null)
+    setModalType(null);
     // eslint-disable-next-line
     setModalIsOpen(false);
     // eslint-disable-next-line
     setIsShownToastify(true);
     // eslint-disable-next-line
     setTimeout(() => setIsShownToastify(false), 100000);
-  };
+  }, []);
+
+  const contextValue = useMemo(() => ({
+    modalType,
+    isOpen,
+    isShownToastify,
+    currentChannelId,
+    showModal,
+    hideModal,
+  }), [modalType, isOpen, isShownToastify, currentChannelId, showModal, hideModal]);
 
   return (
     <ModalContext.Provider
-      value={
-        // eslint-disable-next-line
-        {
-          modalType,
-          isOpen,
-          isShownToastify,
-          currentChannelId,
-          showModal,
-          hideModal,
-        }
-    }
+      value={contextValue}
     >
       { children }
     </ModalContext.Provider>
@@ -76,7 +77,7 @@ export const ScrollProvider = ({ children }) => {
     shouldScrollToTop: false,
   });
 
-  const setScrollPosition = (position) => {
+  const setScrollPosition = useCallback((position) => {
     switch (position) {
       case 'top': {
         // eslint-disable-next-line
@@ -106,21 +107,27 @@ export const ScrollProvider = ({ children }) => {
         break;
       }
     }
-  };
+  }, []);
 
-  const scrollToBottom = (ref) => {
+  const scrollToBottom = useCallback((ref) => {
     // eslint-disable-next-line
     ref.current.scrollTop = ref.current.scrollHeight;
-  };
+  }, []);
 
-  const scrollToTop = (ref) => {
+  const scrollToTop = useCallback((ref) => {
     // eslint-disable-next-line
     ref.current.scrollTop = 0;
-  };
+  }, []);
+
+  const contextValue = useMemo(() => ({
+    scrollState,
+    setScrollPosition,
+    scrollToBottom,
+    scrollToTop,
+  }), [scrollState, setScrollPosition, scrollToBottom, scrollToTop]);
 
   return (
-    // eslint-disable-next-line
-    <ScrollContext.Provider value={{ scrollState, setScrollPosition, scrollToBottom, scrollToTop }}>
+    <ScrollContext.Provider value={contextValue}>
       { children }
     </ScrollContext.Provider>
   );
