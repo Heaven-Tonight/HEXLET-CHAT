@@ -28,27 +28,17 @@ const LoginForm = () => {
       password: '',
     },
     onSubmit: async (values, { setSubmitting }) => {
-      // eslint-disable-next-line
       setAuthFailed(false);
-      // eslint-disable-next-line
       try {
-        // eslint-disable-next-line
         const { data } = await sendLoginData(values);
-        // eslint-disable-next-line
         localStorage.setItem('user', JSON.stringify(data));
-        // eslint-disable-next-line
         auth.logIn();
-        // eslint-disable-next-line
         const { from } = location.state || { from: { pathname: routes.root } };
-        // eslint-disable-next-line
         navigate(from);
       } catch (error) {
-        // eslint-disable-next-line
         setSubmitting(false);
         if (error instanceof AxiosError && error.response.status === 401) {
-          // eslint-disable-next-line
           setAuthFailed(true);
-          // eslint-disable-next-line
           inputRef.current.select();
           return;
         }
@@ -58,7 +48,7 @@ const LoginForm = () => {
   });
 
   return (
-    <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
+    <Form onSubmit={formik.handleSubmit} className="col-10 mt-3 mt-mb-0">
       <h1 className="text-center mb-4">{t('form.signIn')}</h1>
       <FloatingLabel className="mb-3" controlId="email" label={t('form.fields.nickname')}>
         <Form.Control
@@ -84,7 +74,7 @@ const LoginForm = () => {
         />
         <Form.Control.Feedback type="invalid">{t('errors.loginFailed')}</Form.Control.Feedback>
       </FloatingLabel>
-      <Button variant="btn btn-outline-primary" type="submit" className="w-100 mb-3">
+      <Button variant="btn btn-primary" type="submit" className="w-100 mb-3">
         {t('form.signIn')}
       </Button>
     </Form>

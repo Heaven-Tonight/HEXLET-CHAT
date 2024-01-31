@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
+import '../App.css';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
