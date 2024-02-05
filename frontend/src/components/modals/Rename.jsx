@@ -5,14 +5,17 @@ import {
   FormGroup,
   Modal,
 } from 'react-bootstrap';
+import { CheckCircleFill } from 'react-bootstrap-icons';
+import { toast } from 'react-toastify';
+
 import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { toast } from 'react-toastify';
 import { useModal, useScroll } from '../../hooks';
-import { renameCurrentChannel } from '../../socket/index';
 import { useChannelNameSchema } from '../../schemas/index';
+
+import { renameCurrentChannel } from '../../socket/index';
 
 const Rename = () => {
   const { t } = useTranslation();
@@ -23,42 +26,38 @@ const Rename = () => {
   const channels = useSelector((state) => state.channels.channelsData);
   const names = channels.map(({ name }) => name);
   const { name } = channels.find(({ id }) => id === modal.currentChannelId);
-  // eslint-disable-next-line
+
   const renameChannelSchema = useChannelNameSchema(names, t);
 
   const formik = useFormik({
     initialValues: { name },
     validationSchema: renameChannelSchema,
     onSubmit: (values) => {
-      // eslint-disable-next-line
       renameCurrentChannel(values.name, modal.currentChannelId);
-      // eslint-disable-next-line
-      values.name = '';
-      // eslint-disable-next-line
+      formik.resetForm();
       modal.hideModal();
-      // eslint-disable-next-line
-      toast.success(t('toasts.channelRenamed'));
-      // eslint-disable-next-line
+      toast.success(t('toasts.channelRenamed'), {
+        theme: 'dark',
+        icon: <CheckCircleFill className="toastify-icon" />,
+      });
       setScrollPosition('current');
     },
   });
-  // eslint-disable-next-line
   useEffect(() => {
-    // eslint-disable-next-line
     inputRef.current.select();
   }, []);
 
   return (
-    <Modal centered show onHide={() => modal.hideModal()}>
-      <Modal.Header closeButton>
+    <Modal show onHide={() => modal.hideModal()}>
+      <Modal.Header className="modal-header-theme" closeVariant="white" closeButton>
         <Modal.Title>{t('chat.renameChannel')}</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>
+      <Modal.Body className="modal-body-theme">
         <form onSubmit={formik.handleSubmit}>
           <FormGroup>
             <FormControl
-              className="mb-2"
+              className="mb-2 form-input"
               ref={inputRef}
               id="name"
               onChange={formik.handleChange}

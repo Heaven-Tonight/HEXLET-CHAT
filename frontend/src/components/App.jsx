@@ -1,16 +1,20 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import '../App.css';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useAuth, useModal } from '../hooks/index.jsx';
+
 import Navbar from './Navbar.jsx';
 import ChatPage from './pages/ChatPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
 import RegistrationPage from './pages/RegistrationPage.jsx';
-import { useAuth, useModal } from '../hooks/index.jsx';
+
 import routes from '../routes.js';
 import modals from './modals/index.js';
 import { startListening } from '../socket/index';
@@ -18,9 +22,7 @@ import { startListening } from '../socket/index';
 const App = () => {
   const dispatch = useDispatch();
 
-  // eslint-disable-next-line
   useEffect(() => {
-    // eslint-disable-next-line
     startListening(dispatch);
   }, [dispatch]);
 
@@ -47,3 +49,4 @@ const App = () => {
 };
 
 export default App;
+

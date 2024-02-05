@@ -1,12 +1,16 @@
-import { Button, FloatingLabel, Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
+
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import routes from '../../routes.js';
 import { useAuth } from '../../hooks/index.jsx';
+
+import routes from '../../routes.js';
+
 import { sendRegistrationData } from '../../requests';
 import { useRegistrationFormSchema } from '../../schemas/index';
+import RegistrationFormAlert from './RegistrationFormAlert';
 
 const RegistrationForm = () => {
   const { t } = useTranslation();
@@ -15,9 +19,8 @@ const RegistrationForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const auth = useAuth();
-  // eslint-disable-next-line
-    useEffect(() => {
-    // eslint-disable-next-line
+
+  useEffect(() => {
     inputRef.current.focus();
   }, [inputRef]);
 
@@ -30,28 +33,19 @@ const RegistrationForm = () => {
       passwordConfirmation: '',
     },
     validationSchema: registrationSchema,
-    validateOnBlur: true,
+    validateOnBlur: false,
     onSubmit: async (values) => {
-      // eslint-disable-next-line
       setRegistrationFailed(false);
-      // eslint-disable-next-line
       try {
         const { username, password } = values;
-        // eslint-disable-next-line
         const { data } = await sendRegistrationData({ username, password });
-        // eslint-disable-next-line
         localStorage.setItem('user', JSON.stringify(data));
-        // eslint-disable-next-line
         auth.logIn();
-        // eslint-disable-next-line
         const { from } = location.state || { from: { pathname: routes.root } };
-        // eslint-disable-next-line
         navigate(from);
       } catch (error) {
         if (error.isAxiosError && error.response.status === 409) {
-          // eslint-disable-next-line
           setRegistrationFailed(true);
-          // eslint-disable-next-line
           inputRef.current.select();
         }
       }
@@ -59,10 +53,12 @@ const RegistrationForm = () => {
   });
 
   return (
-    <Form onSubmit={formik.handleSubmit} className="w-100 pt-0 p-5">
+    <Form onSubmit={formik.handleSubmit} className="w-100 pt-0">
       <h1 className="text-center mb-4">{t('form.signUp')}</h1>
-      <FloatingLabel className="mb-3" controlId="username" label={t('form.fields.username')}>
+      {registrationFailed && <RegistrationFormAlert />}
+      <Form.Group className="mb-3" controlId="username">
         <Form.Control
+          className="form-input"
           ref={inputRef}
           type="text"
           name="username"
@@ -75,9 +71,10 @@ const RegistrationForm = () => {
           isInvalid={(formik.errors.username && formik.touched.username) || registrationFailed}
         />
         <Form.Control.Feedback type="invalid">{formik.errors.username}</Form.Control.Feedback>
-      </FloatingLabel>
-      <FloatingLabel className="mb-3" label={t('form.fields.password')} controlId="password">
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="password">
         <Form.Control
+          className="form-input"
           type="password"
           name="password"
           placeholder={t('form.fields.password')}
@@ -87,9 +84,10 @@ const RegistrationForm = () => {
           isInvalid={(formik.errors.password && formik.touched.password) || registrationFailed}
         />
         <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
-      </FloatingLabel>
-      <FloatingLabel className="mb-4" controlId="passwordConfirmation" label={t('form.fields.passwordConfirmation')}>
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="passwordConfirmation">
         <Form.Control
+          className="form-input"
           type="password"
           name="passwordConfirmation"
           autoComplete="passwordConfirmation"
@@ -98,14 +96,13 @@ const RegistrationForm = () => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           isInvalid={
-            /* eslint-disable-next-line */
+            // eslint-disable-next-line max-len
             (formik.errors.passwordConfirmation && formik.touched.passwordConfirmation) || registrationFailed
           }
         />
-        {registrationFailed && <div className="invalid-tooltip">{t('errors.registrationErrors.registrationFailed')}</div>}
         <Form.Control.Feedback type="invalid">{formik.errors.passwordConfirmation}</Form.Control.Feedback>
-      </FloatingLabel>
-      <Button variant="btn btn-outline-primary" type="submit" className="w-100">
+      </Form.Group>
+      <Button variant="btn btn-green" type="submit" className="w-100">
         {t('form.signUpBtn')}
       </Button>
     </Form>

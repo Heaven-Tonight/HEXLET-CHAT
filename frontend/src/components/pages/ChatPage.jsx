@@ -1,10 +1,15 @@
-import { Button } from 'react-bootstrap';
+import {
+  Button, Container, Col, Row,
+} from 'react-bootstrap';
+
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useModal } from '../../hooks/index.jsx';
+
 import ChannelsList from '../ChannelsList.jsx';
 import MessagesList from '../MessagesList';
-import { useModal } from '../../hooks/index.jsx';
+
 import { getInitialData } from '../../requests/index';
 import { fetchChannels } from '../../store/slices/channelSlice';
 import { fetchMessages } from '../../store/slices/messagesSlice';
@@ -13,24 +18,18 @@ const ChatPage = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const modal = useModal();
-  // eslint-disable-next-line
   useEffect(() => {
-    // eslint-disable-next-line
     const fetchInitialData = async () => {
       const { token } = JSON.parse(localStorage.getItem('user'));
-      // eslint-disable-next-line
       try {
-        // eslint-disable-next-line
         const { data } = await getInitialData(token);
-        // eslint-disable-next-line
         dispatch(fetchChannels(data));
-        // eslint-disable-next-line
         dispatch(fetchMessages(data));
       } catch (e) {
+        console.log(e);
         throw e;
       }
     };
-    // eslint-disable-next-line
     fetchInitialData();
   }, [dispatch]);
 
@@ -41,16 +40,16 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="container h-100 my-4 overflow-hidden rounded shadow">
-      <div className="row h-100 bg-white flex-md-row">
-        <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
-          <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
+    <Container className="container chat-nav h-100 my-4 overflow-hidden rounded shadow">
+      <Row className="row h-100 flex-md-row">
+        <div className="d-none d-lg-flex col-4 col-md-2 border-end px-0 flex-column h-100">
+          <Col className="mt-1 d-flex justify-content-between mb-2 ps-4 pe-2 p-4">
             <b>{t('chat.channels')}</b>
             <Button
               onClick={() => modal.showModal('add')}
               type="button"
               variant="group-vertical"
-              className="p-1 text-primary"
+              className="p-1 text-success"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
                 <path d="M 14 1 a 1 1 0 0 1 1 1 v 12 a 1 1 0 0 1 -1 1 H 2 a 1 1 0 0 1 -1 -1 V 2 a 1 1 0 0 1 1 -1 h 12 Z M 2 0 a 2 2 0 0 0 -2 2 v 12 a 2 2 0 0 0 2 2 h 12 a 2 2 0 0 0 2 -2 V 2 a 2 2 0 0 0 -2 -2 H 2 Z" />
@@ -58,12 +57,12 @@ const ChatPage = () => {
               </svg>
               <span className="visually-hidden">{t('chat.addChannelBtn')}</span>
             </Button>
-          </div>
+          </Col>
           {data.channels.length > 0 && <ChannelsList data={data} />}
         </div>
         <MessagesList data={data} />
-      </div>
-    </div>
+      </Row>
+    </Container>
   );
 };
 

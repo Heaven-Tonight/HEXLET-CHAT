@@ -1,7 +1,171 @@
 body {
-  background: #e9e9e9;
+    background: #233240;
 }
 
 h1 {
-  color: #2c2c2c;
+  color: #AEB6BF;
+}
+
+.navbar {
+ background: linear-gradient(90deg, #1B2631 40%, #0E6655 95%);
+}
+
+.navbar .logo {
+  color: #28B463;
+  font-size: 26px;
+}
+
+.login-card,
+.signup-card {
+    background: #1B2631;
+}
+
+.card-footer {
+    background: #283747;
+}
+
+.card-link {
+    color: rgb(0, 128, 128);
+    color: #1F8E75;
+}
+
+.card-text {
+    color: #AEB6BF;
+}
+
+.form-input {
+    background: #1B2631;
+    color: whitesmoke;
+}
+
+.form-input:focus {
+    background: #1B2631;
+    color: white;
+}
+
+.form-input::placeholder {
+    color: whitesmoke;
+}
+
+.btn-green {
+    border: 1px solid #12605F;
+    color: whitesmoke;
+    background: #125554;
+}
+
+.btn-green:hover {
+    background: #12605F;
+    background: #1D7574;
+    color: whitesmoke;
+}
+
+.btn-gray {
+    background: #283747;
+    border: 1px solid #12605F;
+}
+
+.btn-gray:hover {
+    background: #1B2631;
+    border: 1px solid #12605F;
+}
+
+.messages-container {
+    background: #253A4E;
+    color: whitesmoke;
+}
+
+.messages-container .username {
+    color: #1fa16a;
+}
+
+.messages-form-container {
+    background: #1B2631;
+    color: whitesmoke;
+}
+
+.chat-nav {
+    background: #1B2631;
+    color: #C6DEDC;
+}
+
+.messages-counter {
+    color: gray;
+}
+
+
+.switch-channel-button {
+    color: white;
+}
+
+.channel-dropdown-button {
+    color: whitesmoke;
+}
+
+.channel-dropdown {
+    background: #1B2631;
+    border: 1px solid whitesmoke;
+}
+
+.channel-dropdown-item {
+    color: whitesmoke;
+}
+
+.channel-dropdown-item:hover {
+    background: #253A4E;
+    color: whitesmoke;
+}
+
+.msg-send {
+    background: green;
+    color: green;
+}
+
+.offcanvas-header {
+    background: linear-gradient(90deg, #253A4E 40%, #0E6655 95%);
+    color: whitesmoke;
+}
+
+.offcanvas-body {
+    background: #283747;
+    background: #1B2631;
+}
+
+.modal-header-theme {
+    background: #1B2631;
+    color: whitesmoke;
+    border-radius: 6px 6px 0 0;
+}
+
+.modal-body-theme {
+    background: #1B2631;
+    border-radius: 0 0 6px 6px;
+    color: whitesmoke;
+}
+
+.scroll-area::-webkit-scrollbar {
+    width: 10px;
+}
+
+.scroll-area::-webkit-scrollbar-track {
+    background: #253A4E;
+}
+
+.scroll-area::-webkit-scrollbar-thumb {
+    background: #294B5B;
+}
+
+.Toastify__toast-theme--dark {
+    background: #1B2631;
+}
+
+.Toastify__progress-bar {
+    background: #1D7574;
+}
+
+.Toastify__toast-icon {
+    color: #1D7574;
+}
+
+.toastify-icon {
+    color: #0E6655;
 }

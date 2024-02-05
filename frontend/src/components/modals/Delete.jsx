@@ -2,10 +2,13 @@ import {
   Button,
   Modal,
 } from 'react-bootstrap';
+import { CheckCircleFill } from 'react-bootstrap-icons';
+import { toast } from 'react-toastify';
+
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { useModal, useScroll } from '../../hooks';
+
 import { deleteChannel } from '../../socket/index';
 
 const Delete = () => {
@@ -15,27 +18,25 @@ const Delete = () => {
   const focusedChannelId = useSelector((state) => state.channels.currentChannelId);
 
   const onClick = () => {
-    // eslint-disable-next-line
     deleteChannel(modal.currentChannelId);
-    // eslint-disable-next-line
     modal.hideModal();
-    // eslint-disable-next-line
-    toast.success(t('toasts.channelDeleted'));
+    toast.success(t('toasts.channelDeleted'), {
+      theme: 'dark',
+      icon: <CheckCircleFill className="toastify-icon" />,
+    });
     if (modal.currentChannelId === focusedChannelId) {
-      // eslint-disable-next-line
       setScrollPosition('top');
     } else {
-      // eslint-disable-next-line
       setScrollPosition('bottom');
     }
   };
 
   return (
-    <Modal centered show onHide={() => modal.hideModal()}>
-      <Modal.Header closeButton>
+    <Modal show onHide={() => modal.hideModal()}>
+      <Modal.Header className="modal-header-theme" closeVariant="white" closeButton>
         <Modal.Title>{t('chat.deleteChannel')}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className="modal-body-theme">
         <p className="lead">{t('questions.confirmChannelDeletion')}</p>
         <div className="d-flex justify-content-end">
           <Button onClick={() => modal.hideModal()} variant="secondary" type="button" className="me-2">{t('form.cancelBtn')}</Button>

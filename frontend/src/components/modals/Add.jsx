@@ -5,12 +5,15 @@ import {
   Button,
   Form,
 } from 'react-bootstrap';
+import { CheckCircleFill } from 'react-bootstrap-icons';
+import { toast } from 'react-toastify';
+
 import { useFormik } from 'formik';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { useModal, useScroll } from '../../hooks/index.jsx';
+
 import { addNewChannel } from '../../socket/index.js';
 import { useChannelNameSchema } from '../../schemas';
 
@@ -28,37 +31,33 @@ const Add = () => {
     initialValues: { name: '' },
     validationSchema: addChannelSchema,
     onSubmit: (values) => {
-      // eslint-disable-next-line
       addNewChannel(values.name);
-      // eslint-disable-next-line
-      values.name = '';
-      // eslint-disable-next-line
+      formik.resetForm();
       modal.hideModal();
-      // eslint-disable-next-line
-      toast.success(t('toasts.channelCreated'));
-      // eslint-disable-next-line
+      toast.success(t('toasts.channelCreated'), {
+        theme: 'dark',
+        icon: <CheckCircleFill className="toastify-icon" />,
+      });
       setScrollPosition('bottom');
     },
   });
 
   const inputRef = useRef();
-  // eslint-disable-next-line
   useEffect(() => {
-    // eslint-disable-next-line
     inputRef.current.focus();
   }, []);
 
   return (
-    <Modal centered show onHide={() => modal.hideModal()}>
-      <Modal.Header closeButton>
+    <Modal className="modal-centered-lg" show onHide={() => modal.hideModal()}>
+      <Modal.Header className="modal-header-theme" closeVariant="white" closeButton>
         <Modal.Title>{t('chat.addChannel')}</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>
+      <Modal.Body className="modal-body-theme">
         <form onSubmit={formik.handleSubmit}>
           <FormGroup>
             <FormControl
-              className="mb-2"
+              className="mb-2 form-input"
               ref={inputRef}
               id="name"
               onChange={formik.handleChange}
@@ -66,11 +65,11 @@ const Add = () => {
               name="name"
               isInvalid={formik.errors.name && formik.touched.name}
             />
-            <Form.Label className="visually-hidden" htmlFor="name">Имя канала</Form.Label>
+            <Form.Label className="visually-hidden" htmlFor="name">{t('chat.channelName')}</Form.Label>
             <Form.Control.Feedback type="invalid">{formik.errors.name}</Form.Control.Feedback>
-            <div className="d-flex justify-content-end">
+            <div className="d-flex justify-content-end mt-4">
               <Button onClick={() => modal.hideModal()} variant="secondary" type="button" className="me-2">{t('form.cancelBtn')}</Button>
-              <Button variant="primary" type="submit">{t('form.sendBtn')}</Button>
+              <Button variant="btn" className="btn-green" type="submit">{t('form.sendBtn')}</Button>
             </div>
           </FormGroup>
         </form>

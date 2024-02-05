@@ -1,4 +1,5 @@
 import { Button, ListGroup, Dropdown } from 'react-bootstrap';
+
 import {
   useEffect,
   useRef,
@@ -7,29 +8,34 @@ import {
 } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { toggleChannel } from '../store/slices/channelSlice.js';
 import { useModal, useScroll } from '../hooks/index.jsx';
-/* eslint-disable */
-const ChannelsList = ({ data }) => {
+
+import { toggleChannel } from '../store/slices/channelSlice.js';
+
+const ChannelsList = ({ data, show, onHideSideMenu }) => {
   const { channels, currentChannelId } = data;
   const [isOpenDropdown, setIsOpenDropdown] = useState(false);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  const channelsBoxRef = useRef();
   const modal = useModal();
   const {
     scrollState,
     scrollToBottom,
     scrollToTop,
   } = useScroll();
-  const { shouldScrollToTop, shouldScrollToBottom } = scrollState;
 
-  const channelsBoxRef = useRef();
+  const { shouldScrollToTop, shouldScrollToBottom } = scrollState;
 
   const toggleDropdown = () => {
     setIsOpenDropdown(!isOpenDropdown);
   };
 
   const onToggleChannel = (id) => () => {
+    if (show) {
+      onHideSideMenu();
+    }
     dispatch(toggleChannel({ currentChannelId: id }));
   };
 
@@ -62,7 +68,7 @@ const ChannelsList = ({ data }) => {
   ]);
 
   return (
-    <ul ref={channelsBoxRef} id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
+    <ul ref={channelsBoxRef} id="channels-box" className="scroll-area nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
       {channels && channels.map(({ name, id, removable }) => {
         const variant = currentChannelId === id ? 'secondary' : null;
 
@@ -78,7 +84,7 @@ const ChannelsList = ({ data }) => {
                   onClick={onToggleChannel(id)}
                   variant={variant}
                   type="button"
-                  className="w-100 rounded-0 text-start text-truncate"
+                  className="switch-channel-button w-100 rounded-0 text-start text-truncate"
                 >
                   <span className="me-1">{t('chat.switchChannelBtn')}</span>
                   {name}
@@ -88,7 +94,7 @@ const ChannelsList = ({ data }) => {
                   type="button"
                   id={`dropdown-toggle-${id}`}
                   aria-expanded={isOpenDropdown}
-                  className="flex-grow-0 dropdown-toggle dropdown-toggle-split"
+                  className="channel-dropdown-button flex-grow-0 dropdown-toggle dropdown-toggle-split"
                 >
                   <span className="visually-hidden">Управление каналом</span>
                 </Dropdown.Toggle>
@@ -102,11 +108,12 @@ const ChannelsList = ({ data }) => {
                     left: '5.01493px',
                   }}
                   x-placement="bottom-start"
+                  className="channel-dropdown"
                 >
-                  <Dropdown.Item onClick={() => modal.showModal('delete', id)}>
+                  <Dropdown.Item className="channel-dropdown-item" onClick={() => modal.showModal('delete', id)}>
                     {t('chat.deleteChannelBtn')}
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => modal.showModal('rename', id)}>
+                  <Dropdown.Item className="channel-dropdown-item" onClick={() => modal.showModal('rename', id)}>
                     {t('chat.renameChannelBtn')}
                   </Dropdown.Item>
                 </Dropdown.Menu>
@@ -121,7 +128,7 @@ const ChannelsList = ({ data }) => {
               onClick={onToggleChannel(id)}
               variant={variant}
               type="button"
-              className="w-100 rounded text-start"
+              className="switch-channel-button w-100 rounded text-start"
             >
               <span className="me-1">{t('chat.switchChannelBtn')}</span>
               {name}

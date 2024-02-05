@@ -13,6 +13,7 @@ export default {
     },
     chat: {
       channels: 'Каналы',
+      channelName: 'Имя канала',
       addChannel: 'Добавить канал',
       deleteChannel: 'Удалить канал',
       renameChannel: 'Переименовать канал',
@@ -23,7 +24,8 @@ export default {
       logoutBtn: 'Выйти',
     },
     form: {
-      signIn: 'Войти',
+      signIn: 'Вход',
+      signInBtn: 'Войти',
       signUp: 'Регистрация',
       signUpBtn: 'Зарегистрироваться',
       sendBtn: 'Отправить',

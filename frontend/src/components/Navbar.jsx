@@ -1,15 +1,19 @@
+import { BoxArrowRight } from 'react-bootstrap-icons';
 import { Container, Button, Navbar as NavbarComponent } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
+
 import { useAuth } from '../hooks/index.jsx';
 
 const Navbar = () => {
   const { loggedIn, logOut } = useAuth();
-  const { t } = useTranslation();
   return (
-    <NavbarComponent expand="lg" className="shadow-sm bg-white">
+    <NavbarComponent expand="lg" className="shadow-sm navbar">
       <Container>
-        <NavbarComponent.Brand href="/"> Hexlet Chat </NavbarComponent.Brand>
-        { loggedIn && <Button onClick={() => logOut()} variant="primary">{t('chat.logoutBtn')}</Button> }
+        <NavbarComponent.Brand className="logo" href="/"> Hexlet Chat </NavbarComponent.Brand>
+        { loggedIn && (
+        <Button variant="nofill-body" onClick={() => logOut()}>
+          <BoxArrowRight size={30} />
+        </Button>
+        ) }
       </Container>
     </NavbarComponent>
   );

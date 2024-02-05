@@ -1,20 +1,21 @@
-import { Form, Button, FloatingLabel } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
+
+import { AxiosError } from 'axios';
+
 import { useRef, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import { AxiosError } from 'axios';
-import routes from '../../routes.js';
 import { useAuth } from '../../hooks/index.jsx';
+
+import routes from '../../routes.js';
 import { sendLoginData } from '../../requests';
 
 const LoginForm = () => {
   const { t } = useTranslation();
   const auth = useAuth();
   const inputRef = useRef();
-  // eslint-disable-next-line
   useEffect(() => {
-    // eslint-disable-next-line
     inputRef.current.focus();
   }, [inputRef]);
 
@@ -50,8 +51,9 @@ const LoginForm = () => {
   return (
     <Form onSubmit={formik.handleSubmit} className="col-10 mt-3 mt-mb-0">
       <h1 className="text-center mb-4">{t('form.signIn')}</h1>
-      <FloatingLabel className="mb-3" controlId="email" label={t('form.fields.nickname')}>
+      <Form.Group className="mb-3" controlId="username">
         <Form.Control
+          className="form-input"
           ref={inputRef}
           type="text"
           name="username"
@@ -62,9 +64,10 @@ const LoginForm = () => {
           onChange={formik.handleChange}
           isInvalid={authFailed}
         />
-      </FloatingLabel>
-      <FloatingLabel className="mb-4" label={t('form.fields.password')} controlId="password">
+      </Form.Group>
+      <Form.Group className="mb-3" controlId="password">
         <Form.Control
+          className="form-input"
           type="password"
           name="password"
           placeholder={t('form.fields.password')}
@@ -73,9 +76,9 @@ const LoginForm = () => {
           isInvalid={authFailed}
         />
         <Form.Control.Feedback type="invalid">{t('errors.loginFailed')}</Form.Control.Feedback>
-      </FloatingLabel>
-      <Button variant="btn btn-primary" type="submit" className="w-100 mb-3">
-        {t('form.signIn')}
+      </Form.Group>
+      <Button variant="btn" type="submit" className="btn-green w-100 mb-3">
+        {t('form.signInBtn')}
       </Button>
     </Form>
   );
